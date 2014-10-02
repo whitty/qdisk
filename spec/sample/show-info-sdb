@@ -1,0 +1,54 @@
+Showing information for /org/freedesktop/UDisks/devices/sdb
+  native-path:                 /sys/devices/pci0000:00/0000:00:1a.0/usb1/1-1/1-1.4/1-1.4:1.0/host6/target6:0:0/6:0:0:0/block/sdb
+  device:                      8:16
+  device-file:                 /dev/sdb
+    presentation:              /dev/sdb
+    by-id:                     /dev/disk/by-id/usb-Multiple_Card_Reader_058F63666435-0:0
+    by-path:                   /dev/disk/by-path/pci-0000:00:1a.0-usb-0:1.4:1.0-scsi-0:0:0:0
+  detected at:                 Thu 02 Oct 2014 21:28:56 EST
+  system internal:             0
+  removable:                   1
+  has media:                   1 (detected at Thu 02 Oct 2014 21:28:56 EST)
+    detects change:            1
+    detection by polling:      1
+    detection inhibitable:     1
+    detection inhibited:       0
+  is read only:                1
+  is mounted:                  0
+  mount paths:             
+  mounted by uid:              0
+  presentation hide:           0
+  presentation nopolicy:       0
+  presentation name:           
+  presentation icon:           
+  automount hint:              
+  size:                        7969177600
+  block size:                  512
+  job underway:                no
+  usage:                       
+  type:                        
+  version:                     
+  uuid:                        
+  label:                       
+  partition table:
+    scheme:                    mbr
+    count:                     1
+  drive:
+    vendor:                    Multiple
+    model:                     Card  Reader
+    revision:                  1.00
+    serial:                    058F63666435
+    WWN:                       
+    detachable:                1
+    can spindown:              0
+    rotational media:          Yes, unknown rate
+    write-cache:               unknown
+    ejectable:                 0
+    adapter:                   Unknown
+    ports:
+    similar devices:
+    media:                     
+      compat:                 
+    interface:                 usb
+    if speed:                  480000000 bits/s
+    ATA SMART:                 not available

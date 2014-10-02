@@ -1,0 +1,572 @@
+========================================================================
+Showing information for /org/freedesktop/UDisks/devices/sda
+  native-path:                 /sys/devices/pci0000:00/0000:00:1f.2/ata1/host0/target0:0:0/0:0:0:0/block/sda
+  device:                      8:0
+  device-file:                 /dev/sda
+    presentation:              /dev/sda
+    by-id:                     /dev/disk/by-id/ata-Hitachi_HTS547575A9E384_J2140054K338ZB
+    by-id:                     /dev/disk/by-id/scsi-SATA_Hitachi_HTS5475_J2140054K338ZB
+    by-id:                     /dev/disk/by-id/wwn-0x5000cca644ebaff9
+    by-path:                   /dev/disk/by-path/pci-0000:00:1f.2-scsi-0:0:0:0
+  detected at:                 Sat 27 Sep 2014 23:21:27 EST
+  system internal:             1
+  removable:                   0
+  has media:                   1 (detected at Sat 27 Sep 2014 23:21:27 EST)
+    detects change:            0
+    detection by polling:      0
+    detection inhibitable:     0
+    detection inhibited:       0
+  is read only:                0
+  is mounted:                  0
+  mount paths:             
+  mounted by uid:              0
+  presentation hide:           0
+  presentation nopolicy:       0
+  presentation name:           
+  presentation icon:           
+  automount hint:              
+  size:                        750156374016
+  block size:                  512
+  job underway:                no
+  usage:                       
+  type:                        
+  version:                     
+  uuid:                        
+  label:                       
+  partition table:
+    scheme:                    mbr
+    count:                     7
+  drive:
+    vendor:                    ATA
+    model:                     Hitachi HTS547575A9E384
+    revision:                  JE4OA6A0
+    serial:                    J2140054K338ZB
+    WWN:                       5000cca644ebaff9
+    detachable:                0
+    can spindown:              1
+    rotational media:          Yes, at 5400 RPM
+    write-cache:               enabled
+    ejectable:                 0
+    adapter:                   Unknown
+    ports:
+    similar devices:
+    media:                     
+      compat:                 
+    interface:                 ata
+    if speed:                  (unknown)
+    ATA SMART:                 Updated at Thu 02 Oct 2014 21:35:31 EST
+      overall assessment:      Good
+===============================================================================
+ Attribute       Current|Worst|Threshold  Status   Value       Type     Updates
+===============================================================================
+ raw-read-error-rate         100|100| 62   good    0           Pre-fail Online 
+ throughput-performance      100|100| 40   good    0           Pre-fail Offline
+ spin-up-time                173|173| 33   good    1 msec      Pre-fail Online 
+ start-stop-count            100|100|  0    n/a    649         Old-age  Online 
+ reallocated-sector-count    100|100|  5   good    0 sectors   Pre-fail Online 
+ seek-error-rate             100|100| 67   good    0           Pre-fail Online 
+ seek-time-performance       100|100| 40   good    0           Pre-fail Offline
+ power-on-hours               74| 74|  0    n/a    487.9 days  Old-age  Online 
+ spin-retry-count            100|100| 60   good    0           Pre-fail Online 
+ power-cycle-count           100|100|  0    n/a    638         Old-age  Online 
+ g-sense-error-rate          100|100|  0    n/a    1           Old-age  Online 
+ power-off-retract-count     100|100|  0    n/a    48          Old-age  Online 
+ load-cycle-count            100|100|  0    n/a    1802        Old-age  Online 
+ temperature-celsius-2       222|222|  0    n/a    27C / 80.6F Old-age  Online 
+ reallocated-event-count     100|100|  0    n/a    0           Old-age  Online 
+ current-pending-sector      100|100|  0    n/a    0 sectors   Old-age  Online 
+ offline-uncorrectable       100|100|  0    n/a    0 sectors   Old-age  Offline
+ udma-crc-error-count        200|200|  0    n/a    0           Old-age  Online 
+ load-retry-count            100|100|  0    n/a    0           Old-age  Online 
+
+========================================================================
+Showing information for /org/freedesktop/UDisks/devices/sda1
+  native-path:                 /sys/devices/pci0000:00/0000:00:1f.2/ata1/host0/target0:0:0/0:0:0:0/block/sda/sda1
+  device:                      8:1
+  device-file:                 /dev/sda1
+    presentation:              /dev/sda1
+    by-id:                     /dev/disk/by-id/ata-Hitachi_HTS547575A9E384_J2140054K338ZB-part1
+    by-id:                     /dev/disk/by-id/scsi-SATA_Hitachi_HTS5475_J2140054K338ZB-part1
+    by-id:                     /dev/disk/by-id/wwn-0x5000cca644ebaff9-part1
+    by-id:                     /dev/disk/by-uuid/A634EED434EEA691
+    by-path:                   /dev/disk/by-path/pci-0000:00:1f.2-scsi-0:0:0:0-part1
+  detected at:                 Sat 27 Sep 2014 23:21:27 EST
+  system internal:             1
+  removable:                   0
+  has media:                   1 (detected at Sat 27 Sep 2014 23:21:27 EST)
+    detects change:            0
+    detection by polling:      0
+    detection inhibitable:     0
+    detection inhibited:       0
+  is read only:                0
+  is mounted:                  0
+  mount paths:             
+  mounted by uid:              0
+  presentation hide:           0
+  presentation nopolicy:       0
+  presentation name:           
+  presentation icon:           
+  automount hint:              
+  size:                        104857600
+  block size:                  512
+  job underway:                no
+  usage:                       filesystem
+  type:                        ntfs
+  version:                     
+  uuid:                        A634EED434EEA691
+  label:                       System Reserved
+  partition:
+    part of:                   /org/freedesktop/UDisks/devices/sda
+    scheme:                    mbr
+    number:                    1
+    type:                      0x07
+    flags:                     boot
+    offset:                    1048576
+    alignment offset:          0
+    size:                      104857600
+    label:                     
+    uuid:                      
+
+========================================================================
+Showing information for /org/freedesktop/UDisks/devices/sda2
+  native-path:                 /sys/devices/pci0000:00/0000:00:1f.2/ata1/host0/target0:0:0/0:0:0:0/block/sda/sda2
+  device:                      8:2
+  device-file:                 /dev/sda2
+    presentation:              /dev/sda2
+    by-id:                     /dev/disk/by-id/ata-Hitachi_HTS547575A9E384_J2140054K338ZB-part2
+    by-id:                     /dev/disk/by-id/scsi-SATA_Hitachi_HTS5475_J2140054K338ZB-part2
+    by-id:                     /dev/disk/by-id/wwn-0x5000cca644ebaff9-part2
+    by-id:                     /dev/disk/by-uuid/36A61AF9A61AB977
+    by-path:                   /dev/disk/by-path/pci-0000:00:1f.2-scsi-0:0:0:0-part2
+  detected at:                 Sat 27 Sep 2014 23:21:27 EST
+  system internal:             1
+  removable:                   0
+  has media:                   1 (detected at Sat 27 Sep 2014 23:21:27 EST)
+    detects change:            0
+    detection by polling:      0
+    detection inhibitable:     0
+    detection inhibited:       0
+  is read only:                0
+  is mounted:                  0
+  mount paths:             
+  mounted by uid:              0
+  presentation hide:           0
+  presentation nopolicy:       0
+  presentation name:           
+  presentation icon:           
+  automount hint:              
+  size:                        73295462400
+  block size:                  512
+  job underway:                no
+  usage:                       filesystem
+  type:                        ntfs
+  version:                     
+  uuid:                        36A61AF9A61AB977
+  label:                       
+  partition:
+    part of:                   /org/freedesktop/UDisks/devices/sda
+    scheme:                    mbr
+    number:                    2
+    type:                      0x07
+    flags:                    
+    offset:                    105906176
+    alignment offset:          0
+    size:                      73295462400
+    label:                     
+    uuid:                      
+
+========================================================================
+Showing information for /org/freedesktop/UDisks/devices/sda3
+  native-path:                 /sys/devices/pci0000:00/0000:00:1f.2/ata1/host0/target0:0:0/0:0:0:0/block/sda/sda3
+  device:                      8:3
+  device-file:                 /dev/sda3
+    presentation:              /dev/sda3
+    by-id:                     /dev/disk/by-id/ata-Hitachi_HTS547575A9E384_J2140054K338ZB-part3
+    by-id:                     /dev/disk/by-id/scsi-SATA_Hitachi_HTS5475_J2140054K338ZB-part3
+    by-id:                     /dev/disk/by-id/wwn-0x5000cca644ebaff9-part3
+    by-id:                     /dev/disk/by-uuid/1CE26220E261FF00
+    by-path:                   /dev/disk/by-path/pci-0000:00:1f.2-scsi-0:0:0:0-part3
+  detected at:                 Sat 27 Sep 2014 23:21:27 EST
+  system internal:             1
+  removable:                   0
+  has media:                   1 (detected at Sat 27 Sep 2014 23:21:27 EST)
+    detects change:            0
+    detection by polling:      0
+    detection inhibitable:     0
+    detection inhibited:       0
+  is read only:                0
+  is mounted:                  0
+  mount paths:             
+  mounted by uid:              0
+  presentation hide:           0
+  presentation nopolicy:       0
+  presentation name:           
+  presentation icon:           
+  automount hint:              
+  size:                        104857600000
+  block size:                  512
+  job underway:                no
+  usage:                       filesystem
+  type:                        ntfs
+  version:                     
+  uuid:                        1CE26220E261FF00
+  label:                       
+  partition:
+    part of:                   /org/freedesktop/UDisks/devices/sda
+    scheme:                    mbr
+    number:                    3
+    type:                      0x07
+    flags:                    
+    offset:                    73401368576
+    alignment offset:          0
+    size:                      104857600000
+    label:                     
+    uuid:                      
+
+========================================================================
+Showing information for /org/freedesktop/UDisks/devices/sda4
+  native-path:                 /sys/devices/pci0000:00/0000:00:1f.2/ata1/host0/target0:0:0/0:0:0:0/block/sda/sda4
+  device:                      8:4
+  device-file:                 /dev/sda4
+    presentation:              /dev/sda4
+    by-id:                     /dev/disk/by-id/ata-Hitachi_HTS547575A9E384_J2140054K338ZB-part4
+    by-id:                     /dev/disk/by-id/scsi-SATA_Hitachi_HTS5475_J2140054K338ZB-part4
+    by-id:                     /dev/disk/by-id/wwn-0x5000cca644ebaff9-part4
+    by-path:                   /dev/disk/by-path/pci-0000:00:1f.2-scsi-0:0:0:0-part4
+  detected at:                 Sat 27 Sep 2014 23:21:27 EST
+  system internal:             1
+  removable:                   0
+  has media:                   1 (detected at Sat 27 Sep 2014 23:21:27 EST)
+    detects change:            0
+    detection by polling:      0
+    detection inhibitable:     0
+    detection inhibited:       0
+  is read only:                0
+  is mounted:                  0
+  mount paths:             
+  mounted by uid:              0
+  presentation hide:           0
+  presentation nopolicy:       0
+  presentation name:           
+  presentation icon:           
+  automount hint:              
+  size:                        1024
+  block size:                  512
+  job underway:                no
+  usage:                       
+  type:                        
+  version:                     
+  uuid:                        
+  label:                       
+  partition:
+    part of:                   /org/freedesktop/UDisks/devices/sda
+    scheme:                    mbr
+    number:                    4
+    type:                      0x05
+    flags:                    
+    offset:                    178260016128
+    alignment offset:          1024
+    size:                      571895448576
+    label:                     
+    uuid:                      
+
+========================================================================
+Showing information for /org/freedesktop/UDisks/devices/sda5
+  native-path:                 /sys/devices/pci0000:00/0000:00:1f.2/ata1/host0/target0:0:0/0:0:0:0/block/sda/sda5
+  device:                      8:5
+  device-file:                 /dev/sda5
+    presentation:              /dev/sda5
+    by-id:                     /dev/disk/by-id/ata-Hitachi_HTS547575A9E384_J2140054K338ZB-part5
+    by-id:                     /dev/disk/by-id/scsi-SATA_Hitachi_HTS5475_J2140054K338ZB-part5
+    by-id:                     /dev/disk/by-id/wwn-0x5000cca644ebaff9-part5
+    by-id:                     /dev/disk/by-uuid/decdfdbf-d49b-4ae0-a11b-bf2fdde894a0
+    by-path:                   /dev/disk/by-path/pci-0000:00:1f.2-scsi-0:0:0:0-part5
+  detected at:                 Sat 27 Sep 2014 23:21:27 EST
+  system internal:             1
+  removable:                   0
+  has media:                   1 (detected at Sat 27 Sep 2014 23:21:27 EST)
+    detects change:            0
+    detection by polling:      0
+    detection inhibitable:     0
+    detection inhibited:       0
+  is read only:                0
+  is mounted:                  1
+  mount paths:             /
+  mounted by uid:              0
+  presentation hide:           0
+  presentation nopolicy:       0
+  presentation name:           
+  presentation icon:           
+  automount hint:              
+  size:                        20478689280
+  block size:                  512
+  job underway:                no
+  usage:                       filesystem
+  type:                        ext4
+  version:                     1.0
+  uuid:                        decdfdbf-d49b-4ae0-a11b-bf2fdde894a0
+  label:                       
+  partition:
+    part of:                   /org/freedesktop/UDisks/devices/sda
+    scheme:                    mbr
+    number:                    5
+    type:                      0x83
+    flags:                    
+    offset:                    178260017152
+    alignment offset:          0
+    size:                      20478689280
+    label:                     
+    uuid:                      
+
+========================================================================
+Showing information for /org/freedesktop/UDisks/devices/sda6
+  native-path:                 /sys/devices/pci0000:00/0000:00:1f.2/ata1/host0/target0:0:0/0:0:0:0/block/sda/sda6
+  device:                      8:6
+  device-file:                 /dev/sda6
+    presentation:              /dev/sda6
+    by-id:                     /dev/disk/by-id/ata-Hitachi_HTS547575A9E384_J2140054K338ZB-part6
+    by-id:                     /dev/disk/by-id/scsi-SATA_Hitachi_HTS5475_J2140054K338ZB-part6
+    by-id:                     /dev/disk/by-id/wwn-0x5000cca644ebaff9-part6
+    by-id:                     /dev/disk/by-uuid/b74c182b-f63a-453f-8d06-cad1c6dd9372
+    by-path:                   /dev/disk/by-path/pci-0000:00:1f.2-scsi-0:0:0:0-part6
+  detected at:                 Sat 27 Sep 2014 23:21:27 EST
+  system internal:             1
+  removable:                   0
+  has media:                   1 (detected at Sat 27 Sep 2014 23:21:27 EST)
+    detects change:            0
+    detection by polling:      0
+    detection inhibitable:     0
+    detection inhibited:       0
+  is read only:                0
+  is mounted:                  1
+  mount paths:             /home
+  mounted by uid:              0
+  presentation hide:           0
+  presentation nopolicy:       0
+  presentation name:           
+  presentation icon:           
+  automount hint:              
+  size:                        541978525696
+  block size:                  512
+  job underway:                no
+  usage:                       filesystem
+  type:                        ext4
+  version:                     1.0
+  uuid:                        b74c182b-f63a-453f-8d06-cad1c6dd9372
+  label:                       
+  partition:
+    part of:                   /org/freedesktop/UDisks/devices/sda
+    scheme:                    mbr
+    number:                    6
+    type:                      0x83
+    flags:                    
+    offset:                    198739755008
+    alignment offset:          0
+    size:                      541978525696
+    label:                     
+    uuid:                      
+
+========================================================================
+Showing information for /org/freedesktop/UDisks/devices/sda7
+  native-path:                 /sys/devices/pci0000:00/0000:00:1f.2/ata1/host0/target0:0:0/0:0:0:0/block/sda/sda7
+  device:                      8:7
+  device-file:                 /dev/sda7
+    presentation:              /dev/sda7
+    by-id:                     /dev/disk/by-id/ata-Hitachi_HTS547575A9E384_J2140054K338ZB-part7
+    by-id:                     /dev/disk/by-id/scsi-SATA_Hitachi_HTS5475_J2140054K338ZB-part7
+    by-id:                     /dev/disk/by-id/wwn-0x5000cca644ebaff9-part7
+    by-id:                     /dev/disk/by-uuid/7592edc2-68c2-4c99-9c89-2fc8addf8f02
+    by-path:                   /dev/disk/by-path/pci-0000:00:1f.2-scsi-0:0:0:0-part7
+  detected at:                 Sat 27 Sep 2014 23:21:27 EST
+  system internal:             1
+  removable:                   0
+  has media:                   1 (detected at Sat 27 Sep 2014 23:21:27 EST)
+    detects change:            0
+    detection by polling:      0
+    detection inhibitable:     0
+    detection inhibited:       0
+  is read only:                0
+  is mounted:                  0
+  mount paths:             
+  mounted by uid:              0
+  presentation hide:           0
+  presentation nopolicy:       0
+  presentation name:           
+  presentation icon:           
+  automount hint:              
+  size:                        9436135424
+  block size:                  512
+  job underway:                no
+  usage:                       other
+  type:                        swap
+  version:                     2
+  uuid:                        7592edc2-68c2-4c99-9c89-2fc8addf8f02
+  label:                       
+  partition:
+    part of:                   /org/freedesktop/UDisks/devices/sda
+    scheme:                    mbr
+    number:                    7
+    type:                      0x82
+    flags:                    
+    offset:                    740719329280
+    alignment offset:          0
+    size:                      9436135424
+    label:                     
+    uuid:                      
+
+========================================================================
+Showing information for /org/freedesktop/UDisks/devices/sdb
+  native-path:                 /sys/devices/pci0000:00/0000:00:1a.0/usb1/1-1/1-1.4/1-1.4:1.0/host6/target6:0:0/6:0:0:0/block/sdb
+  device:                      8:16
+  device-file:                 /dev/sdb
+    presentation:              /dev/sdb
+    by-id:                     /dev/disk/by-id/usb-Multiple_Card_Reader_058F63666435-0:0
+    by-path:                   /dev/disk/by-path/pci-0000:00:1a.0-usb-0:1.4:1.0-scsi-0:0:0:0
+  detected at:                 Thu 02 Oct 2014 21:28:56 EST
+  system internal:             0
+  removable:                   1
+  has media:                   1 (detected at Thu 02 Oct 2014 21:28:56 EST)
+    detects change:            1
+    detection by polling:      1
+    detection inhibitable:     1
+    detection inhibited:       0
+  is read only:                1
+  is mounted:                  0
+  mount paths:             
+  mounted by uid:              0
+  presentation hide:           0
+  presentation nopolicy:       0
+  presentation name:           
+  presentation icon:           
+  automount hint:              
+  size:                        7969177600
+  block size:                  512
+  job underway:                no
+  usage:                       
+  type:                        
+  version:                     
+  uuid:                        
+  label:                       
+  partition table:
+    scheme:                    mbr
+    count:                     1
+  drive:
+    vendor:                    Multiple
+    model:                     Card  Reader
+    revision:                  1.00
+    serial:                    058F63666435
+    WWN:                       
+    detachable:                1
+    can spindown:              0
+    rotational media:          Yes, unknown rate
+    write-cache:               unknown
+    ejectable:                 0
+    adapter:                   Unknown
+    ports:
+    similar devices:
+    media:                     
+      compat:                 
+    interface:                 usb
+    if speed:                  480000000 bits/s
+    ATA SMART:                 not available
+
+========================================================================
+Showing information for /org/freedesktop/UDisks/devices/sdb1
+  native-path:                 /sys/devices/pci0000:00/0000:00:1a.0/usb1/1-1/1-1.4/1-1.4:1.0/host6/target6:0:0/6:0:0:0/block/sdb/sdb1
+  device:                      8:17
+  device-file:                 /dev/sdb1
+    presentation:              /dev/sdb1
+    by-id:                     /dev/disk/by-id/usb-Multiple_Card_Reader_058F63666435-0:0-part1
+    by-id:                     /dev/disk/by-uuid/5D9F-38E7
+    by-path:                   /dev/disk/by-path/pci-0000:00:1a.0-usb-0:1.4:1.0-scsi-0:0:0:0-part1
+  detected at:                 Thu 02 Oct 2014 21:28:56 EST
+  system internal:             0
+  removable:                   0
+  has media:                   1 (detected at Thu 02 Oct 2014 21:28:56 EST)
+    detects change:            0
+    detection by polling:      0
+    detection inhibitable:     0
+    detection inhibited:       0
+  is read only:                1
+  is mounted:                  1
+  mount paths:             /media/CANON_DC
+  mounted by uid:              1000
+  presentation hide:           0
+  presentation nopolicy:       0
+  presentation name:           
+  presentation icon:           
+  automount hint:              
+  size:                        7964983296
+  block size:                  512
+  job underway:                no
+  usage:                       filesystem
+  type:                        vfat
+  version:                     FAT32
+  uuid:                        5D9F-38E7
+  label:                       CANON_DC
+  partition:
+    part of:                   /org/freedesktop/UDisks/devices/sdb
+    scheme:                    mbr
+    number:                    1
+    type:                      0x0b
+    flags:                    
+    offset:                    4194304
+    alignment offset:          0
+    size:                      7964983296
+    label:                     
+    uuid:                      
+
+========================================================================
+Showing information for /org/freedesktop/UDisks/devices/sr0
+  native-path:                 /sys/devices/pci0000:00/0000:00:1f.2/ata3/host2/target2:0:0/2:0:0:0/block/sr0
+  device:                      11:0
+  device-file:                 /dev/sr0
+    presentation:              /dev/sr0
+    by-id:                     /dev/disk/by-id/ata-MATSHITADVD-RAM_UJ8B0_YN46_173191
+    by-path:                   /dev/disk/by-path/pci-0000:00:1f.2-scsi-0:0:0:0
+  detected at:                 Sat 27 Sep 2014 23:21:27 EST
+  system internal:             0
+  removable:                   1
+  has media:                   0
+    detects change:            1
+    detection by polling:      1
+    detection inhibitable:     1
+    detection inhibited:       0
+  is read only:                0
+  is mounted:                  0
+  mount paths:             
+  mounted by uid:              0
+  presentation hide:           0
+  presentation nopolicy:       0
+  presentation name:           
+  presentation icon:           
+  automount hint:              
+  size:                        0
+  block size:                  0
+  job underway:                no
+  usage:                       
+  type:                        
+  version:                     
+  uuid:                        
+  label:                       
+  drive:
+    vendor:                    MATSHITA
+    model:                     MATSHITADVD-RAM UJ8B0
+    revision:                  1.00
+    serial:                    YN46_173191
+    WWN:                       
+    detachable:                0
+    can spindown:              0
+    rotational media:          Yes, unknown rate
+    write-cache:               unknown
+    ejectable:                 1
+    adapter:                   Unknown
+    ports:
+    similar devices:
+    media:                     
+      compat:                  optical_cd optical_cd_r optical_cd_rw optical_dvd optical_dvd_plus_r optical_dvd_plus_r_dl optical_dvd_plus_rw optical_dvd_r optical_dvd_ram optical_dvd_rw optical_mrw optical_mrw_w
+    interface:                 scsi
+    if speed:                  (unknown)
+    ATA SMART:                 not available
+
+========================================================================

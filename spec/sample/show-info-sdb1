@@ -1,0 +1,44 @@
+Showing information for /org/freedesktop/UDisks/devices/sdb1
+  native-path:                 /sys/devices/pci0000:00/0000:00:1a.0/usb1/1-1/1-1.4/1-1.4:1.0/host6/target6:0:0/6:0:0:0/block/sdb/sdb1
+  device:                      8:17
+  device-file:                 /dev/sdb1
+    presentation:              /dev/sdb1
+    by-id:                     /dev/disk/by-id/usb-Multiple_Card_Reader_058F63666435-0:0-part1
+    by-id:                     /dev/disk/by-uuid/5D9F-38E7
+    by-path:                   /dev/disk/by-path/pci-0000:00:1a.0-usb-0:1.4:1.0-scsi-0:0:0:0-part1
+  detected at:                 Thu 02 Oct 2014 21:28:56 EST
+  system internal:             0
+  removable:                   0
+  has media:                   1 (detected at Thu 02 Oct 2014 21:28:56 EST)
+    detects change:            0
+    detection by polling:      0
+    detection inhibitable:     0
+    detection inhibited:       0
+  is read only:                1
+  is mounted:                  1
+  mount paths:             /media/CANON_DC
+  mounted by uid:              1000
+  presentation hide:           0
+  presentation nopolicy:       0
+  presentation name:           
+  presentation icon:           
+  automount hint:              
+  size:                        7964983296
+  block size:                  512
+  job underway:                no
+  usage:                       filesystem
+  type:                        vfat
+  version:                     FAT32
+  uuid:                        5D9F-38E7
+  label:                       CANON_DC
+  partition:
+    part of:                   /org/freedesktop/UDisks/devices/sdb
+    scheme:                    mbr
+    number:                    1
+    type:                      0x0b
+    flags:                    
+    offset:                    4194304
+    alignment offset:          0
+    size:                      7964983296
+    label:                     
+    uuid:                      

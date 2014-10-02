@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+
+require 'qdisk'
+require 'optparse'
+
+begin
+  options = {}
+  parser = OptionParser.new do |opts|
+    opts.banner = "Usage: qdisk [options]"
+
+    opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
+      options[:verbose] = v
+    end
+    opts.on("-n", "--[no-]act", "Don't take any action") do |v|
+      options[:no_act] = v
+    end
+  end
+  parser.parse!
+
+rescue OptionParser::ParseError => e
+  puts(e.message)
+  puts(parser)
+  exit(1)
+end
+

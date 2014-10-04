@@ -517,6 +517,108 @@ Showing information for /org/freedesktop/UDisks/devices/sdb1
     uuid:                      
 
 ========================================================================
+Showing information for /org/freedesktop/UDisks/devices/sdc
+  native-path:                 /sys/devices/pci0000:00/0000:00:14.0/usb4/4-3/4-3:1.0/host21/target21:0:0/21:0:0:0/block/sdc
+  device:                      8:16
+  device-file:                 /dev/sdc
+    presentation:              /dev/sdc
+    by-id:                     /dev/disk/by-id/usb-HGST_HTS_721010A9E630_100060B4FFFF-0:0
+    by-path:                   /dev/disk/by-path/pci-0000:00:14.0-usb-0:3:1.0-scsi-0:0:0:0
+  detected at:                 Mon 06 Oct 2014 08:05:53 EST
+  system internal:             0
+  removable:                   0
+  has media:                   1 (detected at Thu 02 Oct 2014 21:05:53 EST)
+    detects change:            0
+    detection by polling:      0
+    detection inhibitable:     0
+    detection inhibited:       0
+  is read only:                0
+  is mounted:                  0
+  mount paths:             
+  mounted by uid:              0
+  presentation hide:           0
+  presentation nopolicy:       0
+  presentation name:           
+  presentation icon:           
+  automount hint:              
+  size:                        1000204886016
+  block size:                  512
+  job underway:                no
+  usage:                       
+  type:                        
+  version:                     
+  uuid:                        
+  label:                       
+  partition table:
+    scheme:                    mbr
+    count:                     1
+  drive:
+    vendor:                    HGST HTS
+    model:                     721010A9E630
+    revision:                  0100
+    serial:                    100060B4FFFF
+    WWN:                       
+    detachable:                1
+    can spindown:              1
+    rotational media:          Yes, unknown rate
+    write-cache:               unknown
+    ejectable:                 0
+    adapter:                   Unknown
+    ports:
+    similar devices:
+    media:                     
+      compat:                 
+    interface:                 usb
+    if speed:                  705032704 bits/s
+    ATA SMART:                 Data not collected
+
+========================================================================
+Showing information for /org/freedesktop/UDisks/devices/sdc1
+  native-path:                 /sys/devices/pci0000:00/0000:00:14.0/usb4/4-3/4-3:1.0/host21/target21:0:0/21:0:0:0/block/sdc/sdc1
+  device:                      8:17
+  device-file:                 /dev/sdc1
+    presentation:              /dev/sdc1
+    by-id:                     /dev/disk/by-id/usb-HGST_HTS_721010A9E630_100060B4FFFF-0:0-part1
+    by-id:                     /dev/disk/by-uuid/ED3C-74EC
+    by-path:                   /dev/disk/by-path/pci-0000:00:14.0-usb-0:3:1.0-scsi-0:0:0:0-part1
+  detected at:                 Mon 06 Oct 2014 08:05:53 EST
+  system internal:             0
+  removable:                   0
+  has media:                   1 (detected at Thu 02 Oct 2014 21:05:53 EST)
+    detects change:            0
+    detection by polling:      0
+    detection inhibitable:     0
+    detection inhibited:       0
+  is read only:                0
+  is mounted:                  1
+  mount paths:             /media/ED3C-74EC
+  mounted by uid:              0
+  presentation hide:           0
+  presentation nopolicy:       0
+  presentation name:           
+  presentation icon:           
+  automount hint:              
+  size:                        1000204853760
+  block size:                  512
+  job underway:                no
+  usage:                       filesystem
+  type:                        vfat
+  version:                     FAT32
+  uuid:                        ED3C-74EC
+  label:                       
+  partition:
+    part of:                   /org/freedesktop/UDisks/devices/sdc
+    scheme:                    mbr
+    number:                    1
+    type:                      0x0c
+    flags:                    
+    offset:                    32256
+    alignment offset:          0
+    size:                      1000204853760
+    label:                     
+    uuid:                      
+
+========================================================================
 Showing information for /org/freedesktop/UDisks/devices/sr0
   native-path:                 /sys/devices/pci0000:00/0000:00:1f.2/ata3/host2/target2:0:0/2:0:0:0/block/sr0
   device:                      11:0

@@ -51,6 +51,13 @@
 /dev/disk/by-id/usb-Multiple_Card_Reader_058F63666435-0:0-part1
 /dev/disk/by-uuid/5D9F-38E7
 /dev/disk/by-path/pci-0000:00:1a.0-usb-0:1.4:1.0-scsi-0:0:0:0-part1
+/dev/sdc
+/dev/disk/by-id/usb-HGST_HTS_721010A9E630_100060B4FFFF-0:0
+/dev/disk/by-path/pci-0000:00:14.0-usb-0:3:1.0-scsi-0:0:0:0
+/dev/sdc1
+/dev/disk/by-id/usb-HGST_HTS_721010A9E630_100060B4FFFF-0:0-part1
+/dev/disk/by-uuid/ED3C-74EC
+/dev/disk/by-path/pci-0000:00:14.0-usb-0:3:1.0-scsi-0:0:0:0-part1
 /dev/sr0
 /dev/disk/by-id/ata-MATSHITADVD-RAM_UJ8B0_YN46_173191
 /dev/disk/by-path/pci-0000:00:1f.2-scsi-0:0:0:0

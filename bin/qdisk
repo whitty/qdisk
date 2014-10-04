@@ -3,23 +3,24 @@
 require 'qdisk'
 require 'optparse'
 
-begin
-  options = {}
-  parser = OptionParser.new do |opts|
-    opts.banner = "Usage: qdisk [options]"
+include QDisk
 
-    opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
-      options[:verbose] = v
-    end
-    opts.on("-n", "--[no-]act", "Don't take any action") do |v|
-      options[:no_act] = v
+begin
+
+  options, arguments = parse_options(ARGV)
+
+  if arguments.length > 0
+    if arguments.first == 'unmount'
+      if options.fetch(:best, false)
+        options[:query] = [:removable?, [:interface, 'usb'], :mounted?]
+      end
+      unmount(options)
     end
   end
-  parser.parse!
 
-rescue OptionParser::ParseError => e
-  puts(e.message)
-  puts(parser)
+rescue OptionParser::ParseError
   exit(1)
+rescue NotFound => e
+  puts e.message
+  exit(2)
 end
-

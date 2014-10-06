@@ -32,16 +32,6 @@ module QDisk
 
       attr_reader :object_name, :device_name, :partitions, :tables, :raw
 
-      def mounted?
-        v = @values.fetch('is mounted', nil)
-        v and v.value
-      end
-
-      def removable?
-        v = @values.fetch('removable', nil)
-        v and v.value
-      end
-
       def partition?
         get('partition','part of') != nil
       end
@@ -105,12 +95,23 @@ module QDisk
 
       Data = Struct.new(:name, :value, :children)
 
+      def self.predicate(predicate)
+        [*predicate].each do |pred|
+          name = pred.sub(/^(is)\s+/,'').gsub(/\s+/, '_') + '?'
+          define_method(name.to_sym) do
+            v = @values.fetch(pred, nil)
+            v and v.value
+          end
+        end
+      end
+
       @@predicates = [
                       'is mounted',
                       'removable',
                       'has media',
                       'is read only',
                      ]
+      predicate @@predicates
 
       def parse(lines)
         rows = lines.map do |l|

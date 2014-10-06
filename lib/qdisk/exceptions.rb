@@ -1,9 +1,33 @@
 module QDisk
 
-  class NotFound < Exception
-    def initialize
-      super("No matching device found")
+  class UnknownCommand < Exception
+    def initialize(command, detail = nil)
+      str = "Unknown command #{command}"
+      if detail and detail.length > 0
+        str += "\n #{detail}"
+      end
+      super(str)
     end
+
+    def code ; 2 end
+  end
+
+  class MissingRequiredArgument < Exception
+    def initialize(argument, detail = nil)
+      str = "Missing required argument '#{argument}'"
+      if detail and detail.length > 0
+        str += "\n #{detail}"
+      end
+      super(str)
+    end
+    def code ; 2 end
+  end
+
+  class NotFound < Exception
+    def initialize(what = 'device')
+      super("No matching #{what} found")
+    end
+    def code ; 4 end
   end
 
   class NotUnique < Exception

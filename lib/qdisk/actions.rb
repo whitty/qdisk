@@ -4,8 +4,11 @@ require 'set'
 module QDisk
 
   def find_disks(info, options = {})
+    queries = options.fetch(:query,[])
+    return [] if options.fetch(:mandatory, false) and queries.length < 1
+
     candidates = info.disks.to_set
-    options.fetch(:query,[]).each do | query |
+    queries.each do | query |
       case query
       when :mounted?
         candidates.select! do |d|
@@ -22,19 +25,27 @@ module QDisk
     candidates
   end
 
-  def unmount(options)
+  def mandatory_target_query(options)
     info = QDisk::Info.new
-    candidates = find_disks(info, options)
+    candidates = find_disks(info, options.merge(:mandatory => true))
     if candidates.length == 0
       raise NotFound.new
     end
+
     if options.fetch(:only, false)
       if candidates.length != 1
         raise NotUnique.new(candidates)
       end
     end
 
+    if options.fetch(:last, false)
+      candidates = [candidates.last]
+    end
+    candidates
+  end
 
+  def unmount(options)
+    candidates = mandatory_target_query(options)
     candidates.each do | disk |
       disk.partitions.each do |part|
         if part.mounted?
@@ -45,6 +56,29 @@ module QDisk
         QDisk.detach_disk(disk, options)
       end
     end
+  end
+
+  def cp(args, options)
+    if args.length < 1
+      raise MissingRequiredArgument, 'copy source'
+    end
+    if args.length < 2
+      raise MissingRequiredArgument, 'destination'
+    end
+    destination = args.pop
+
+    options[:only] = true
+    candidates = mandatory_target_query(options)
+    disk = candidates.first
+    puts "disk => #{disk.device_name}" if options[:verbose]
+    part = disk.partitions.find do |p|
+      p.mounted?
+    end
+    raise NotFound, 'partition' if part.nil?
+    puts "partition => #{part.device_name}" if options[:verbose]
+    path = part.get('mount paths')
+    raise NotFound, 'partition' unless path
+    FileUtils.cp(args, Pathname(path) + destination, :verbose => options[:verbose], :noop => options[:no_act])
   end
 
   def run(args)
@@ -87,4 +121,5 @@ module QDisk
       raise DetachFailed.new(disk, output)
     end
   end
+
 end

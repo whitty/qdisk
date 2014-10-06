@@ -10,17 +10,26 @@ begin
   options, arguments = parse_options(ARGV)
 
   if arguments.length > 0
-    if arguments.first == 'unmount'
-      if options.fetch(:best, false)
-        options[:query] = [:removable?, [:interface, 'usb'], :mounted?]
-      end
+    if options.fetch(:best, false) and (options[:query].nil? or options[:query].length == 0)
+      options[:query] = [[:interface, 'usb'], :mounted?]
+    end
+
+    case arguments.shift
+    when 'unmount'
       unmount(options)
+    when 'cp'
+      begin
+        cp(arguments, options)
+      rescue SystemCallError => e
+        puts e.message
+        exit(3)
+      end
     end
   end
 
 rescue OptionParser::ParseError
   exit(1)
-rescue NotFound => e
+rescue NotFound, MissingRequiredArgument, UnknownCommand => e
   puts e.message
-  exit(2)
+  exit(e.code)
 end

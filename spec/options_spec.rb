@@ -15,7 +15,7 @@ describe :parse_options do
   end
 
   it 'should support --verbose' do
-    options,_ = parse_options(["--verbose"])
+    options,_ = parse_options(["--verbose", 'unmount'])
     options.should include(:verbose)
   end
 

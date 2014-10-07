@@ -49,4 +49,5 @@ RSpec::Matchers.define :exit_with_code do |exp_code|
   description do
     "expect block to call exit(#{exp_code})"
   end
+  supports_block_expectations
 end

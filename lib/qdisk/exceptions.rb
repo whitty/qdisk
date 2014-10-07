@@ -1,5 +1,29 @@
 module QDisk
 
+  class InvalidParameter < Exception
+    def initialize(parameter, command, detail = nil)
+      str = "Invalid parameter #{parameter} for command '#{command}'"
+      if detail and detail.length > 0
+        str += "\n #{detail}"
+      end
+      super(str)
+    end
+
+    def code ; 5 end
+  end
+
+  class UnexpectedArgument < Exception
+    def initialize(argument, command, detail = nil)
+      str = "Unexpected argument #{argument} for command '#{command}'"
+      if detail and detail.length > 0
+        str += "\n #{detail}"
+      end
+      super(str)
+    end
+
+    def code ; 6 end
+  end
+
   class UnknownCommand < Exception
     def initialize(command, detail = nil)
       str = "Unknown command #{command}"

@@ -45,31 +45,39 @@ module QDisk
       opts.banner = "Usage: qdisk command [options]"
       opts.version = QDisk::VERSION
 
-      opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
-        options[:verbose] = v
-      end
-      opts.on("-n", "--[no-]act", "Don't take any action") do |v|
-        options[:no_act] = v
-      end
-
+      opts.separator ""
+      opts.separator "Commands are #{commands.map{|x| "'" + x + "'"}.join(', ')}"
       opts.separator ""
       opts.separator "Query options:"
-
-      opts.on("--best", "Best guess match") do |v|
-        options[:best] = v
-      end
-      opts.on("--last", "If multiple matches, choose the most recently", "mounted") do |v|
-        options[:last] = v
-      end
-      opts.on("--only", "Error if more than one queried") do |v|
-        options[:only] = v
-      end
 
       opts.accept(OptionQuery, OptionQuery)
 
       opts.on("--query=query", OptionQuery, "query parameters") do |v|
         options[:query] ||= []
         options[:query].concat(v)
+      end
+
+      opts.on("--best", "Best guess match") do |v|
+        options[:best] = v
+      end
+
+      opts.separator "Controlling cardinality:"
+
+      opts.on("--multi", "Allow more than one result") do |v|
+        options[:only] = v
+      end
+      opts.on("--only", "Error if more than one queried", "Default for 'cp', 'unmount'") do |v|
+        options[:only] = v
+      end
+
+      opts.separator ""
+      opts.separator "Common options:"
+
+      opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
+        options[:verbose] = v
+      end
+      opts.on("-n", "--[no-]act", "Don't take any action") do |v|
+        options[:no_act] = v
       end
 
     end

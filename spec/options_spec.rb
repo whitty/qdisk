@@ -5,13 +5,13 @@ include QDisk
 describe :parse_options do
 
   it 'should support --help' do
-    begin
-      orig = $stdout
-      $stdout = StringIO.new
+    output, _ = capture_output do
       lambda { parse_options(["--help"]) }.should exit_with_code(0)
-     ensure
-      $stdout = orig
     end
+    lines = output.to_s.split(/\n/)
+    lines.length.should be > 5
+    # ensure lines don't wrap 80 characters
+    lines.any? {|x| x.length >= 80 }.should be(false)
   end
 
   it 'should support --verbose' do

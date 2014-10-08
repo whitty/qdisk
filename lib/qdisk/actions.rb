@@ -1,5 +1,7 @@
 require 'qdisk/exceptions'
 require 'set'
+require 'fileutils'
+require 'pathname'
 
 module QDisk
 

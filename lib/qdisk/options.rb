@@ -38,7 +38,7 @@ module QDisk
 
   def parse_options(args)
 
-    commands = ['unmount', 'cp']
+    commands = ['unmount', 'cp', 'wait']
 
     options = {}
     parser = OptionParser.new do |opts|
@@ -68,6 +68,12 @@ module QDisk
       end
       opts.on("--only", "Error if more than one queried", "Default for 'cp', 'unmount'") do |v|
         options[:only] = v
+      end
+
+      opts.separator "Controlling time:"
+
+      opts.on("--timeout=timeout", Float, "Fail if operation takes longer than ", "'timeout' seconds. Decimals allowed") do |v|
+        options[:timeout] = v
       end
 
       opts.separator ""

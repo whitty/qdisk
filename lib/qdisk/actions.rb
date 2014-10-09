@@ -2,8 +2,10 @@ require 'qdisk/exceptions'
 require 'set'
 require 'fileutils'
 require 'pathname'
+require 'timeout'
 
 module QDisk
+  extend self
 
   def find_disks(info, options = {})
     queries = options.fetch(:query,[])
@@ -22,6 +24,30 @@ module QDisk
         end
       else
         candidates = candidates & info.query_disks(*query)
+      end
+    end
+    candidates
+  end
+
+  def find_partitions(info, options = {})
+    queries = options.fetch(:query,[])
+    return [] if options.fetch(:mandatory, false) and queries.length < 1
+
+    candidates = info.partitions.to_set
+    queries.each do | query |
+      case [*query].first
+      when :interface, :removable?
+        # partitions on own rights
+        partition_candidates = info.query_partitions(*query)
+        # partitions selected by parent disks
+        disk_based_partition_candidates = candidates.select do |part|
+          parent = info.disk(part.parent)
+          disks = info.query_disks(*query)
+          disks.member?(parent)
+        end
+        candidates = Set.new(partition_candidates).union(Set.new(disk_based_partition_candidates))
+      else
+        candidates = candidates & info.query_partitions(*query)
       end
     end
     candidates
@@ -122,6 +148,30 @@ module QDisk
     else
       raise DetachFailed.new(disk, output)
     end
+  end
+
+  def wait(args, options)
+    if options[:query].nil? or options[:query].empty?
+      raise MissingRequiredArgument, '--query'
+    end
+    work = lambda do
+      found = nil
+      while true
+        info = QDisk::Info.new
+        found = QDisk.find_partitions(info, {:query => options[:query] })
+        break if found and !found.empty?
+        sleep(0.2)
+      end
+      found
+    end
+
+    if options[:timeout]
+      Timeout.timeout(options[:timeout]) {|x| work.call}
+    else
+      work.call
+    end
+  rescue Timeout::Error
+    return false
   end
 
 end

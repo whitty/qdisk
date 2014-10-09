@@ -24,6 +24,16 @@ begin
         puts e.message
         exit(3)
       end
+    when 'wait'
+      results = wait(arguments,options)
+      if results
+        results.each do |x|
+          # TODO: Tailor query output
+          printf "%s %s %s\n", x.device_name, x.mount_paths, x.mounted_by_uid
+        end
+      else
+        exit(10)
+      end
     end
   end
 

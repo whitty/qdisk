@@ -4,102 +4,97 @@ include QDisk
 
 describe :actions do
 
-  let(:info) do
-    set_process_output('dump')
-    QDisk::Info.new
-  end
-
   describe :unmount do
 
-    it "should unmount each partition of found disk" do
-      set_process_output('dump')
-      QDisk.should_receive(:unmount_partition)
-      unmount(:query => [:removable?, [:interface, 'usb'], :mounted?])
-    end
+    context "against real captured dump data" do
+      include_context "against real captured dump data"
 
-    it "should unmount each partition of found disk (hash args)" do
-      set_process_output('dump')
-      QDisk.should_receive(:unmount_partition)
-      unmount({:query => [:removable?, [:interface, 'usb'], :mounted?]})
-    end
-
-    it "should unmount each partition of found disk and detach" do
-      set_process_output('dump')
-      QDisk.should_receive(:unmount_partition)
-      QDisk.should_receive(:detach_disk)
-      unmount(:query => [:removable?, [:interface, 'usb'], :mounted?], :detach => true)
-    end
-
-    it "should unmount each partition (2) of found disk and detach" do
-      set_process_output('dump')
-      QDisk.should_receive(:unmount_partition).twice
-      QDisk.should_receive(:detach_disk)
-      unmount(:query => [[:interface, 'ata'], :mounted?], :detach => true)
-    end
-
-    it "should should perform no action if :no_act specified " do
-      set_process_output('dump')
-      unmount(:query => [[:interface, 'ata'], :mounted?], :detach => true, :no_act => true)
-    end
-
-    it "should should perform no action if :no_act specified " do
-      set_process_output('dump')
-      out, _ = capture_output do
-        unmount(:query => [[:interface, 'ata'], :mounted?], :detach => true, :no_act => true, :verbose => true)
+      it "should unmount each partition of found disk" do
+        QDisk.should_receive(:unmount_partition)
+        unmount(:query => [:removable?, [:interface, 'usb'], :mounted?])
       end
-      out.should match(/udisks.*--unmount.*\/dev\/sda5/)
-      out.should match(/udisks.*--unmount.*\/dev\/sda6/)
-      out.should match(/udisks.*--detach.*\/dev\/sda/)
-    end
 
-    it "should error with NotUnique if more than one disk is found" do
-      set_process_output('dump')
-      expect {unmount(:query => [[:interface, 'usb'], :mounted?], :detach => true, :only => true)}.to raise_error(NotUnique)
-    end
+      it "should unmount each partition of found disk (hash args)" do
+        QDisk.should_receive(:unmount_partition)
+        unmount({:query => [:removable?, [:interface, 'usb'], :mounted?]})
+      end
 
-    it "should error with NotUnique if more than one disk is found (:only)" do
-      set_process_output('dump')
-      expect {unmount(:query => [[:interface, 'usb'], :mounted?], :detach => true, :only => true)}.to raise_error(NotUnique)
-    end
+      it "should unmount each partition of found disk and detach" do
+        QDisk.should_receive(:unmount_partition)
+        QDisk.should_receive(:detach_disk)
+        unmount(:query => [:removable?, [:interface, 'usb'], :mounted?], :detach => true)
+      end
 
-    it "should unmount each partition of each found disk (2) if --multi provided" do
-      set_process_output('dump')
-      QDisk.should_receive(:unmount_partition).twice
-      QDisk.should_receive(:detach_disk).twice
-      unmount(:query => [[:interface, 'usb'], :mounted?], :detach => true, :multi => true)
-    end
+      it "should unmount each partition (2) of found disk and detach" do
+        QDisk.should_receive(:unmount_partition).twice
+        QDisk.should_receive(:detach_disk)
+        unmount(:query => [[:interface, 'ata'], :mounted?], :detach => true)
+      end
 
-    it "should error with NotFound no disk is found" do
-      set_process_output('dump')
-      expect {unmount(:query => [[:interface, 'ps2'], :mounted?], :detach => true, :only => true)}.to raise_error(NotFound)
-    end
+      it "should should perform no action if :no_act specified " do
+        unmount(:query => [[:interface, 'ata'], :mounted?], :detach => true, :no_act => true)
+      end
 
+      it "should should perform no action if :no_act specified " do
+        out, _ = capture_output do
+          unmount(:query => [[:interface, 'ata'], :mounted?], :detach => true, :no_act => true, :verbose => true)
+        end
+        out.should match(/udisks.*--unmount.*\/dev\/sda5/)
+        out.should match(/udisks.*--unmount.*\/dev\/sda6/)
+        out.should match(/udisks.*--detach.*\/dev\/sda/)
+      end
+
+      it "should error with NotUnique if more than one disk is found" do
+        expect {unmount(:query => [[:interface, 'usb'], :mounted?], :detach => true, :only => true)}.to raise_error(NotUnique)
+      end
+
+      it "should error with NotUnique if more than one disk is found (:only)" do
+        expect {unmount(:query => [[:interface, 'usb'], :mounted?], :detach => true, :only => true)}.to raise_error(NotUnique)
+      end
+
+      it "should unmount each partition of each found disk (2) if --multi provided" do
+        QDisk.should_receive(:unmount_partition).twice
+        QDisk.should_receive(:detach_disk).twice
+        unmount(:query => [[:interface, 'usb'], :mounted?], :detach => true, :multi => true)
+      end
+
+      it "should error with NotFound no disk is found" do
+        expect {unmount(:query => [[:interface, 'ps2'], :mounted?], :detach => true, :only => true)}.to raise_error(NotFound)
+      end
+
+    end
   end
 
   describe :cp do
 
-    it "calls FileUtils.cp with arguments to destination path" do
-      set_process_output('dump')
-      FileUtils.should_receive(:cp).with(['a', 'b'], Pathname('/media/CANON_DC'), anything)
-      cp(['a', 'b', '.'], :query => [:removable?, [:interface, 'usb'], :mounted?])
-    end
+    context "against real captured dump data" do
+      include_context "against real captured dump data"
 
-    it "calls FileUtils.cp with arguments to destination path with subdir" do
-      set_process_output('dump')
-      FileUtils.should_receive(:cp).with(['a', 'b'], Pathname('/media/CANON_DC/data'), anything)
-      cp(['a', 'b', 'data'], :query => [:removable?, [:interface, 'usb'], :mounted?])
-    end
+      it "calls FileUtils.cp with arguments to destination path" do
+        FileUtils.should_receive(:cp).with(['a', 'b'], Pathname('/media/CANON_DC'), anything)
+        cp(['a', 'b', '.'], :query => [:removable?, [:interface, 'usb'], :mounted?])
+      end
 
-    it "calls FileUtils.cp with arguments to destination path with relative dir" do
-      set_process_output('dump')
-      FileUtils.should_receive(:cp).with(['a', 'b'], Pathname('/media'), anything)
-      cp(['a', 'b', '..'], :query => [:removable?, [:interface, 'usb'], :mounted?])
-    end
+      it "calls FileUtils.cp with arguments to destination path with subdir" do
+        FileUtils.should_receive(:cp).with(['a', 'b'], Pathname('/media/CANON_DC/data'), anything)
+        cp(['a', 'b', 'data'], :query => [:removable?, [:interface, 'usb'], :mounted?])
+      end
 
-    it "calls FileUtils.cp with single argument to new file-name" do
-      set_process_output('dump')
-      FileUtils.should_receive(:cp).with('a', Pathname('/media/CANON_DC/b'), anything)
-      cp(['a', 'b'], :query => [:removable?, [:interface, 'usb'], :mounted?])
+      it "calls FileUtils.cp with arguments to destination path with relative dir" do
+        FileUtils.should_receive(:cp).with(['a', 'b'], Pathname('/media'), anything)
+        cp(['a', 'b', '..'], :query => [:removable?, [:interface, 'usb'], :mounted?])
+      end
+
+      it "calls FileUtils.cp with single argument to new file-name" do
+        FileUtils.should_receive(:cp).with('a', Pathname('/media/CANON_DC/b'), anything)
+        cp(['a', 'b'], :query => [:removable?, [:interface, 'usb'], :mounted?])
+      end
+
+      it 'use cp ::noop with --no-act' do
+        FileUtils.should_receive(:cp).with('a', Pathname('/media/CANON_DC/b'), hash_including(:noop => true))
+        cp(['a', 'b'], :query => [:removable?, [:interface, 'usb'], :mounted?], :no_act => true)
+      end
+
     end
 
     it "Missing argument 1" do
@@ -110,32 +105,30 @@ describe :actions do
       expect { cp(['a'], :query => [:removable?, [:interface, 'usb'], :mounted?]) }.to raise_error(QDisk::MissingRequiredArgument)
     end
 
-    it 'use cp ::noop with --no-act' do
-      set_process_output('dump')
-      FileUtils.should_receive(:cp).with('a', Pathname('/media/CANON_DC/b'), hash_including(:noop => true))
-      cp(['a', 'b'], :query => [:removable?, [:interface, 'usb'], :mounted?], :no_act => true)
-    end
-
   end
 
   describe :unmount_partition do
 
-    it 'should unmount mounted removable usb disk partition' do
-      found = find_disks(info, {:query => [:removable?, [:interface, 'usb'], :mounted?] })
-      set_process_output('unmount')
-      unmount_partition(found.first.partitions.first).should be(true)
-    end
+    context "against real captured dump data" do
+      include_context "against real captured dump data"
 
-    it 'should raise exception when unmounting non-existent partition' do
-      found = find_disks(info, {:query => [:removable?, [:interface, 'usb'], :mounted?] })
-      set_process_failure('mount-non', 1)
-      expect { unmount_partition(found.first.partitions.first) }.to raise_error(QDisk::UnmountFailed)
-    end
+      it 'should unmount mounted removable usb disk partition' do
+        found = find_disks(info, {:query => [:removable?, [:interface, 'usb'], :mounted?] })
+        set_process_output('unmount')
+        unmount_partition(found.first.partitions.first).should be(true)
+      end
 
-    it 'should not raise exception when unmounting already unmounted partition' do
-      found = find_disks(info, {:query => [:removable?, [:interface, 'usb'], :mounted?] })
-      set_process_failure('unmount-already', 1)
-      unmount_partition(found.first.partitions.first).should be(true)
+      it 'should raise exception when unmounting non-existent partition' do
+        found = find_disks(info, {:query => [:removable?, [:interface, 'usb'], :mounted?] })
+        set_process_failure('mount-non', 1)
+        expect { unmount_partition(found.first.partitions.first) }.to raise_error(QDisk::UnmountFailed)
+      end
+
+      it 'should not raise exception when unmounting already unmounted partition' do
+        found = find_disks(info, {:query => [:removable?, [:interface, 'usb'], :mounted?] })
+        set_process_failure('unmount-already', 1)
+        unmount_partition(found.first.partitions.first).should be(true)
+      end
     end
 
     let(:part) do
@@ -205,34 +198,39 @@ describe :actions do
 
   describe :detach_disk do
 
-    it 'should detach removable usb disk' do
-      found = find_disks(info, {:query => [:removable?, [:interface, 'usb'], :mounted?] })
-      set_process_output('detach-sdb')
-      detach_disk(found.first).should be(true)
-    end
+    context "against real captured dump data" do
+      include_context "against real captured dump data"
 
-    context "when process errors on failure" do
-
-      it 'should raise exception when detaching non-existent drive' do
+      it 'should detach removable usb disk' do
         found = find_disks(info, {:query => [:removable?, [:interface, 'usb'], :mounted?] })
-        set_process_failure('mount-non', 1)
-        expect { detach_disk(found.first) }.to raise_error(QDisk::DetachFailed)
+        set_process_output('detach-sdb')
+        detach_disk(found.first).should be(true)
       end
 
-      it 'should raise exception when detaching drive with still mounted partitions' do
-        found = find_disks(info, {:query => [:removable?, [:interface, 'usb'], :mounted?] })
-        set_process_failure('detach-sdb-still-mounted', 1)
-        expect { detach_disk(found.first) }.to raise_error(QDisk::DetachFailed)
+      context "when process errors on failure" do
+
+        it 'should raise exception when detaching non-existent drive' do
+          found = find_disks(info, {:query => [:removable?, [:interface, 'usb'], :mounted?] })
+          set_process_failure('mount-non', 1)
+          expect { detach_disk(found.first) }.to raise_error(QDisk::DetachFailed)
+        end
+
+        it 'should raise exception when detaching drive with still mounted partitions' do
+          found = find_disks(info, {:query => [:removable?, [:interface, 'usb'], :mounted?] })
+          set_process_failure('detach-sdb-still-mounted', 1)
+          expect { detach_disk(found.first) }.to raise_error(QDisk::DetachFailed)
+        end
+
       end
 
-    end
+      context "when process returns normally on failure" do
 
-    context "when process returns normally on failure" do
+        it 'should raise exception when detaching drive with still mounted partitions' do
+          found = find_disks(info, {:query => [:removable?, [:interface, 'usb'], :mounted?] })
+          set_process_output('detach-sdb-still-mounted')
+          expect { detach_disk(found.first) }.to raise_error(QDisk::DetachFailed)
+        end
 
-      it 'should raise exception when detaching drive with still mounted partitions' do
-        found = find_disks(info, {:query => [:removable?, [:interface, 'usb'], :mounted?] })
-        set_process_output('detach-sdb-still-mounted')
-        expect { detach_disk(found.first) }.to raise_error(QDisk::DetachFailed)
       end
 
     end

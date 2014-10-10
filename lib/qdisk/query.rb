@@ -14,20 +14,23 @@ module QDisk
     return [] if options.fetch(:mandatory, false) and queries.length < 1
 
     candidates = info.disks.to_set
+
     queries.each do | query |
-      case query
+      case [*query].first
       when :mounted?
-        candidates.select! do |d|
-          if d.mounted?
-            true
-          else
-            d.partitions.find {|p| p.mounted? }
-          end
+        # disks on own rights
+        disk_candidates = info.query_disks(*query)
+        # disks selected by matching partitions
+        matching_partitions = info.query_partitions(*query)
+        partition_based_disk_candidates = candidates.select do |disk|
+          disk.partitions.any? {|part| matching_partitions.member?(part)}
         end
+        candidates = disk_candidates.to_set.union(partition_based_disk_candidates.to_set)
       else
         candidates = candidates & info.query_disks(*query)
       end
     end
+
     candidates
   end
 
@@ -36,6 +39,7 @@ module QDisk
     return [] if options.fetch(:mandatory, false) and queries.length < 1
 
     candidates = info.partitions.to_set
+
     queries.each do | query |
       case [*query].first
       when :interface, :removable?
@@ -51,6 +55,7 @@ module QDisk
         candidates = candidates & info.query_partitions(*query)
       end
     end
+
     candidates
   end
 

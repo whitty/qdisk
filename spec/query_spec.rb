@@ -100,61 +100,36 @@ describe QDisk::Query do
     end
 
     it 'should filter down the list by the subsets of each query' do
-      info = double(QDisk::Info)
       expect(info).to receive(:disks).and_return(disks.to_set)
       expect(info).to receive(:query_disks).with(:removable?).and_return([disks[0], disks[2]])
       expect(info).to receive(:query_disks).with(:interface, 'usb').and_return(disks)
       found = find_disks(info, {:query => [:removable?, [:interface, 'usb'] ] })
-      found.length.should eq(2)
-      found.member?(disks[0]).should be(true)
-      found.member?(disks[2]).should be(true)
+      found.to_set.should == [disks[0], disks[2]].to_set
     end
 
     it 'should filter down the list by the subsets of each query (different subsets)' do
-      info = double(QDisk::Info)
       expect(info).to receive(:disks).and_return(disks)
       expect(info).to receive(:query_disks).with(:removable?).and_return([disks[0], disks[2]])
       expect(info).to receive(:query_disks).with(:interface, 'usb').and_return([disks[0], disks[1]])
       found = find_disks(info, {:query => [:removable?, [:interface, 'usb'] ] })
-      found.length.should eq(1)
-      found.member?(disks[0]).should be(true)
+      found.to_set.should == [disks[0]].to_set
     end
 
     it 'mounted is queried against both owning disk and partition' do
-      pending "check disks"
-      info = double(QDisk::Info)
       expect(info).to receive(:disks).and_return(disks)
       expect(info).to receive(:query_disks).with(:mounted?).and_return([disks[0], disks[2]])
+      expect(info).to receive(:query_partitions).with(:mounted?).and_return([partitions[0], partitions[5]])
       found = find_disks(info, {:query => [:mounted?]})
-      found.length.should eq(4)
-      found.member?(disks[0]).should be(true)
-      found.member?(disks[1]).should be(true)
-      found.member?(disks[2]).should be(true)
-      found.member?(disks[3]).should be(true)
-    end
-
-    it 'mounted is queried against both owning disk and partition' do
-      pending "check disks"
-      info = double(QDisk::Info)
-      expect(info).to receive(:disks).and_return(disks)
-      expect(info).to receive(:query_disks).with(:mounted?).and_return([disks[0], disks[2]])
-      found = find_disks(info, {:query => [:mounted?]})
-      found.length.should eq(4)
-      found.member?(disks[0]).should be(true)
-      found.member?(disks[1]).should be(true)
-      found.member?(disks[2]).should be(true)
-      found.member?(disks[3]).should be(true)
+      found.to_set.should == [disks[0], disks[2], disks[3]].to_set
     end
 
     it 'should all disks if query is not mandatory and query is empty' do
-      info = double(QDisk::Info)
       set = disks.to_set
       expect(info).to receive(:disks).and_return(set)
       find_disks(info, {:query => [] }).should eq(set)
     end
 
     it 'should return empty if query is mandatory and query is empty' do
-      info = double(QDisk::Info)
       find_disks(info, {:mandatory => true, :query => [] }).should be_empty
     end
 
@@ -228,7 +203,6 @@ describe QDisk::Query do
     end
 
     it 'interface is queried against both owning disk and partition' do
-      info = double(QDisk::Info)
       disks, partitions = sample_data
 
       # from the set of all partitions
@@ -239,21 +213,30 @@ describe QDisk::Query do
       expect(info).to receive(:query_disks).with(:interface, 'usb').and_return([disks[0]])
 
       found = find_partitions(info, {:query => [[:interface, 'usb']]})
-      found.length.should eq(4)
       found.to_set.should == (disks[0].partitions + [partitions[5]]).to_set
     end
 
-    xit 'removable is queried against both owning disk and partition'
+    it 'removable is queried against both owning disk and partition' do
+      disks, partitions = sample_data
+
+      # from the set of all partitions
+      expect(info).to receive(:partitions).and_return(partitions)
+      # query against partitions
+      expect(info).to receive(:query_partitions).with(:removable?).and_return([partitions[2], partitions[5]])
+      # match also partitions, part of matching disks
+      expect(info).to receive(:query_disks).with(:removable?).and_return([disks[1]])
+
+      found = find_partitions(info, {:query => [:removable?]})
+      found.to_set.should == (disks[1].partitions + [partitions[2], partitions[5]]).to_set
+    end
 
     it 'should all disks if query is not mandatory and query is empty' do
-      info = double(QDisk::Info)
       set = partitions.to_set
       expect(info).to receive(:partitions).and_return(set)
       find_partitions(info, {:query => [] }).should eq(set)
     end
 
     it 'should return empty if query is mandatory and query is empty' do
-      info = double(QDisk::Info)
       find_partitions(info, {:mandatory => true, :query => [] }).should be_empty
     end
 

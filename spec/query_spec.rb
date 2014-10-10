@@ -150,7 +150,7 @@ describe QDisk::Query do
       info = double(QDisk::Info)
       set = disks.to_set
       expect(info).to receive(:disks).and_return(set)
-      find_disks(info, {:query => [] }).should be(set)
+      find_disks(info, {:query => [] }).should eq(set)
     end
 
     it 'should return empty if query is mandatory and query is empty' do
@@ -249,7 +249,7 @@ describe QDisk::Query do
       info = double(QDisk::Info)
       set = partitions.to_set
       expect(info).to receive(:partitions).and_return(set)
-      find_partitions(info, {:query => [] }).should be(set)
+      find_partitions(info, {:query => [] }).should eq(set)
     end
 
     it 'should return empty if query is mandatory and query is empty' do

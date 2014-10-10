@@ -39,17 +39,10 @@ describe QDisk::Query do
     sample_data[1]
   end
 
-  let(:info) do
-    QDisk::Info.new
-  end
-
   describe :find_disks do
 
     context "against real captured dump data" do
-
-      before(:each) do
-        set_process_output('dump')
-      end
+      include_context "against real captured dump data"
 
       it 'should find mounted removable usb disks' do
         found = find_disks(info, {:query => [:removable?, [:interface, 'usb'], :mounted?] })
@@ -99,6 +92,10 @@ describe QDisk::Query do
 
     end
 
+    let(:info) do
+      double(QDisk::Info)
+    end
+
     it 'should filter down the list by the subsets of each query' do
       expect(info).to receive(:disks).and_return(disks.to_set)
       expect(info).to receive(:query_disks).with(:removable?).and_return([disks[0], disks[2]])
@@ -138,10 +135,7 @@ describe QDisk::Query do
   describe :find_partitions do
 
     context "against real captured dump data" do
-
-      before(:each) do
-        set_process_output('dump')
-      end
+      include_context "against real captured dump data"
 
       it 'should find mounted removable usb disks' do
         found = find_partitions(info, {:query => [:removable?, [:interface, 'usb'], :mounted?] })
@@ -200,6 +194,10 @@ describe QDisk::Query do
         found_devices.should == ['/dev/sdb1'].to_set
       end
 
+    end
+
+    let(:info) do
+      double(QDisk::Info)
     end
 
     it 'interface is queried against both owning disk and partition' do

@@ -42,12 +42,11 @@ module QDisk
         # partitions on own rights
         partition_candidates = info.query_partitions(*query)
         # partitions selected by parent disks
+        matching_disks = info.query_disks(*query).map {|x| x.object_name }
         disk_based_partition_candidates = candidates.select do |part|
-          parent = info.disk(part.parent)
-          disks = info.query_disks(*query)
-          disks.member?(parent)
+          matching_disks.member?(part.parent)
         end
-        candidates = Set.new(partition_candidates).union(Set.new(disk_based_partition_candidates))
+        candidates = partition_candidates.to_set.union(disk_based_partition_candidates.to_set)
       else
         candidates = candidates & info.query_partitions(*query)
       end

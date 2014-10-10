@@ -42,4 +42,6 @@ rescue OptionParser::ParseError
 rescue NotFound, MissingRequiredArgument, UnknownCommand => e
   puts e.message
   exit(e.code)
+rescue Interrupt
+  exit(-1)
 end

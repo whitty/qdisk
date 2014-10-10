@@ -1,5 +1,6 @@
 require 'qdisk/version'
 require 'qdisk/info'
 require 'qdisk/options'
+require 'qdisk/query'
 require 'qdisk/actions'
 require 'qdisk/exceptions'

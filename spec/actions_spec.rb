@@ -9,20 +9,6 @@ describe :actions do
     QDisk::Info.new
   end
 
-  describe :find_disks do
-
-    it 'should find mounted removable usb disks' do
-      found = find_disks(info, {:query => [:removable?, [:interface, 'usb'], :mounted?] })
-      found.length.should eq(1)
-      found = found.first
-      found.device_name.should eq('/dev/sdb')
-      found.interface.should eq('usb')
-      found.should_not be_mounted
-      found.partitions.first.should be_mounted
-    end
-
-  end
-
   describe :unmount do
 
     it "should unmount each partition of found disk" do
@@ -303,10 +289,6 @@ describe :actions do
       elapsed.should be < 0.5
     end
 
-  end
-
-  describe :find_partitions do
-    xit "should be tested"
   end
 
 end

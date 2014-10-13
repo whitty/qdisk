@@ -98,7 +98,6 @@ describe QDisk::Info do
     end
 
     it "should include the first matching data" do
-      pending "implementation"
       set_process_output('show-info-sdb1')
       i = QDisk::Info.new
       part = i.partition('/dev/sdb1')

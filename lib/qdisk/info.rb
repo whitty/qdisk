@@ -60,11 +60,12 @@ module QDisk
       end
 
       def get(name, subname = nil)
+        source = subname.nil? ? @values : @tree
         c = get_candidates(name).find do |cand|
-          @tree.member?(cand)
+          source.member?(cand)
         end
         return nil if c.nil?
-        entry = @tree[c]
+        entry = source[c] unless c.nil?
 
         if subname
           entry = entry.children.find_all do|ch|
@@ -144,7 +145,7 @@ module QDisk
           unless @values.member?(name)
             @values[name] = d
           end
-          @tree[name] = d
+          @tree[name] = d if depth == 0
           parent.children << d unless parent.nil?
 
           last_depth = depth

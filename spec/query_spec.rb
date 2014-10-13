@@ -278,21 +278,18 @@ describe QDisk::Query do
       end
 
       it 'should find matching type' do
-        pending "fix type not being queried"
         found = find_partitions(info, {:query => [[:type, 'ext4']] })
         found_devices = found.map{|x| x.device_name}.to_set
         found_devices.should eq(['/dev/sda5', '/dev/sda6'].to_set)
       end
 
       it 'should find matching uuid' do
-        pending "fix uuid not being queried"
         found = find_partitions(info, {:query => [[:uuid, '5D9F-38E7']] })
         found_devices = found.map{|x| x.device_name}.to_set
         found_devices.should eq(['/dev/sdb1'].to_set)
       end
 
       it 'should find matching label' do
-        pending "fix label not being queried"
         found = find_partitions(info, {:query => [[:label, 'System Reserved']] })
         found_devices = found.map{|x| x.device_name}.to_set
         found_devices.should eq(['/dev/sda1'].to_set)

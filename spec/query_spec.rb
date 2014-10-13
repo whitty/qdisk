@@ -57,37 +57,102 @@ describe QDisk::Query do
       it 'should find all disks' do
         found = find_disks(info, {:query => [] })
         found_devices = found.map{|x| x.device_name}.to_set
-        found_devices.should == ['/dev/sda', '/dev/sdb', '/dev/sdc','/dev/sr0'].to_set
+        found_devices.should eq(['/dev/sda', '/dev/sdb', '/dev/sdc','/dev/sr0'].to_set)
       end
 
       it 'should find USB disks' do
         found = find_disks(info, {:query => [[:interface, 'usb']] })
         found_devices = found.map{|x| x.device_name}.to_set
-        found_devices.should == ['/dev/sdb','/dev/sdc'].to_set
+        found_devices.should eq(['/dev/sdb','/dev/sdc'].to_set)
       end
 
       it 'should find ATA disks' do
         found = find_disks(info, {:query => [[:interface, 'ata']] })
         found_devices = found.map{|x| x.device_name}.to_set
-        found_devices.should == ['/dev/sda'].to_set
+        found_devices.should eq(['/dev/sda'].to_set)
       end
 
       it 'should find SCSI disks' do
         found = find_disks(info, {:query => [[:interface, 'scsi']] })
         found_devices = found.map{|x| x.device_name}.to_set
-        found_devices.should == ['/dev/sr0'].to_set
+        found_devices.should eq(['/dev/sr0'].to_set)
       end
 
       it 'should find mounted disks' do
         found = find_disks(info, {:query => [:mounted?] })
         found_devices = found.map{|x| x.device_name}.to_set
-        found_devices.should == ['/dev/sdb','/dev/sdc','/dev/sda'].to_set
+        found_devices.should eq(['/dev/sdb','/dev/sdc','/dev/sda'].to_set)
       end
 
       it 'should find mounted, removable disks' do
         found = find_disks(info, {:query => [:mounted?, :removable?] })
         found_devices = found.map{|x| x.device_name}.to_set
-        found_devices.should == ['/dev/sdb'].to_set
+        found_devices.should eq(['/dev/sdb'].to_set)
+      end
+
+      it 'should find matching device' do
+        found = find_disks(info, {:query => [[:device, '8:16']] })
+        found_devices = found.map{|x| x.device_name}.to_set
+        found_devices.should eq(['/dev/sdb'].to_set)
+      end
+
+      it 'should not find matching partition' do
+        found = find_disks(info, {:query => [[:device, '8:17']] })
+        found_devices = found.map{|x| x.device_name}.to_set
+        found_devices.should be_empty
+      end
+
+      it 'should not find matching partition' do
+        found = find_disks(info, {:query => [[:usage, 'other']] })
+        found_devices = found.map{|x| x.device_name}.to_set
+        found_devices.should be_empty
+      end
+
+      context "bad examples due to no sample data to query" do
+
+        it 'should find matching usage' do
+          # not the best example, but there are no non-null disk usages
+          found = find_disks(info, {:query => [[:usage, '']] })
+          found_devices = found.map{|x| x.device_name}.to_set
+          found_devices.should eq(['/dev/sda', '/dev/sdb', '/dev/sdc', '/dev/sr0'].to_set)
+
+          found = find_disks(info, {:query => [[:usage, 'filesystem']] })
+          found_devices = found.map{|x| x.device_name}.to_set
+          found_devices.should be_empty
+        end
+
+        it 'should find matching type' do
+          # not the best example, but there are no non-null disk types
+          found = find_disks(info, {:query => [[:type, '']] })
+          found_devices = found.map{|x| x.device_name}.to_set
+          found_devices.should eq(['/dev/sda', '/dev/sdb', '/dev/sdc', '/dev/sr0'].to_set)
+
+          found = find_disks(info, {:query => [[:type, 'ntfs']] })
+          found_devices = found.map{|x| x.device_name}.to_set
+          found_devices.should be_empty
+        end
+
+        it 'should find matching uuid' do
+          # not the best example, but there are no non-null disk uuids
+          found = find_disks(info, {:query => [[:uuid, '']] })
+          found_devices = found.map{|x| x.device_name}.to_set
+          found_devices.should eq(['/dev/sda', '/dev/sdb', '/dev/sdc', '/dev/sr0'].to_set)
+
+          found = find_disks(info, {:query => [[:uuid, '5D9F-38E7']] })
+          found_devices = found.map{|x| x.device_name}.to_set
+          found_devices.should be_empty
+        end
+
+        it 'should find matching label' do
+          found = find_disks(info, {:query => [[:label, '']] })
+          found_devices = found.map{|x| x.device_name}.to_set
+          found_devices.should eq(['/dev/sda', '/dev/sdb', '/dev/sdc', '/dev/sr0'].to_set)
+
+          found = find_disks(info, {:query => [[:label, 'System Reserved']] })
+          found_devices = found.map{|x| x.device_name}.to_set
+          found_devices.should be_empty
+        end
+
       end
 
     end
@@ -101,7 +166,7 @@ describe QDisk::Query do
       expect(info).to receive(:query_disks).with(:removable?).and_return([disks[0], disks[2]])
       expect(info).to receive(:query_disks).with(:interface, 'usb').and_return(disks)
       found = find_disks(info, {:query => [:removable?, [:interface, 'usb'] ] })
-      found.to_set.should == [disks[0], disks[2]].to_set
+      found.to_set.should eq([disks[0], disks[2]].to_set)
     end
 
     it 'should filter down the list by the subsets of each query (different subsets)' do
@@ -109,7 +174,7 @@ describe QDisk::Query do
       expect(info).to receive(:query_disks).with(:removable?).and_return([disks[0], disks[2]])
       expect(info).to receive(:query_disks).with(:interface, 'usb').and_return([disks[0], disks[1]])
       found = find_disks(info, {:query => [:removable?, [:interface, 'usb'] ] })
-      found.to_set.should == [disks[0]].to_set
+      found.to_set.should eq([disks[0]].to_set)
     end
 
     it 'mounted is queried against both owning disk and partition' do
@@ -117,7 +182,7 @@ describe QDisk::Query do
       expect(info).to receive(:query_disks).with(:mounted?).and_return([disks[0], disks[2]])
       expect(info).to receive(:query_partitions).with(:mounted?).and_return([partitions[0], partitions[5]])
       found = find_disks(info, {:query => [:mounted?]})
-      found.to_set.should == [disks[0], disks[2], disks[3]].to_set
+      found.to_set.should eq([disks[0], disks[2], disks[3]].to_set)
     end
 
     it 'should all disks if query is not mandatory and query is empty' do
@@ -148,7 +213,7 @@ describe QDisk::Query do
       it 'should find all disks' do
         found = find_partitions(info, {:query => [] })
         found_devices = found.map{|x| x.device_name}.to_set
-        found_devices.should == ["/dev/sda1",
+        found_devices.should eq(["/dev/sda1",
                                  "/dev/sda2",
                                  "/dev/sda3",
                                  "/dev/sda4",
@@ -156,24 +221,24 @@ describe QDisk::Query do
                                  "/dev/sda6",
                                  "/dev/sda7",
                                  "/dev/sdb1",
-                                 "/dev/sdc1"].to_set
+                                 "/dev/sdc1"].to_set)
       end
       it 'should find USB disks' do
         found = find_partitions(info, {:query => [[:interface, 'usb']] })
         found_devices = found.map{|x| x.device_name}.to_set
-        found_devices.should == ['/dev/sdb1','/dev/sdc1'].to_set
+        found_devices.should eq(['/dev/sdb1','/dev/sdc1'].to_set)
       end
 
       it 'should find ATA disks' do
         found = find_partitions(info, {:query => [[:interface, 'ata']] })
         found_devices = found.map{|x| x.device_name}.to_set
-        found_devices.should == ["/dev/sda1",
+        found_devices.should eq(["/dev/sda1",
                                  "/dev/sda2",
                                  "/dev/sda3",
                                  "/dev/sda4",
                                  "/dev/sda5",
                                  "/dev/sda6",
-                                 "/dev/sda7"].to_set
+                                 "/dev/sda7"].to_set)
       end
 
       # no partitions
@@ -185,13 +250,52 @@ describe QDisk::Query do
       it 'should find mounted disks' do
         found = find_partitions(info, {:query => [:mounted?] })
         found_devices = found.map{|x| x.device_name}.to_set
-        found_devices.should == %w{/dev/sda5 /dev/sda6 /dev/sdb1 /dev/sdc1}.to_set
+        found_devices.should eq(%w{/dev/sda5 /dev/sda6 /dev/sdb1 /dev/sdc1}.to_set)
       end
 
       it 'should find mounted, removable disks' do
         found = find_partitions(info, {:query => [:mounted?, :removable?] })
         found_devices = found.map{|x| x.device_name}.to_set
-        found_devices.should == ['/dev/sdb1'].to_set
+        found_devices.should eq(['/dev/sdb1'].to_set)
+      end
+
+      it 'should find matching device' do
+        found = find_partitions(info, {:query => [[:device, '8:17']] })
+        found_devices = found.map{|x| x.device_name}.to_set
+        found_devices.should eq(['/dev/sdb1'].to_set)
+      end
+
+      it 'should not find matching disk' do
+        found = find_partitions(info, {:query => [[:device, '8:16']] })
+        found_devices = found.map{|x| x.device_name}.to_set
+        found_devices.should be_empty
+      end
+
+      it 'should find matching usage' do
+        found = find_partitions(info, {:query => [[:usage, 'other']] })
+        found_devices = found.map{|x| x.device_name}.to_set
+        found_devices.should eq(['/dev/sda7'].to_set)
+      end
+
+      it 'should find matching type' do
+        pending "fix type not being queried"
+        found = find_partitions(info, {:query => [[:type, 'ext4']] })
+        found_devices = found.map{|x| x.device_name}.to_set
+        found_devices.should eq(['/dev/sda5', '/dev/sda6'].to_set)
+      end
+
+      it 'should find matching uuid' do
+        pending "fix uuid not being queried"
+        found = find_partitions(info, {:query => [[:uuid, '5D9F-38E7']] })
+        found_devices = found.map{|x| x.device_name}.to_set
+        found_devices.should eq(['/dev/sdb1'].to_set)
+      end
+
+      it 'should find matching label' do
+        pending "fix label not being queried"
+        found = find_partitions(info, {:query => [[:label, 'System Reserved']] })
+        found_devices = found.map{|x| x.device_name}.to_set
+        found_devices.should eq(['/dev/sda1'].to_set)
       end
 
     end
@@ -211,7 +315,7 @@ describe QDisk::Query do
       expect(info).to receive(:query_disks).with(:interface, 'usb').and_return([disks[0]])
 
       found = find_partitions(info, {:query => [[:interface, 'usb']]})
-      found.to_set.should == (disks[0].partitions + [partitions[5]]).to_set
+      found.to_set.should eq((disks[0].partitions + [partitions[5]]).to_set)
     end
 
     it 'removable is queried against both owning disk and partition' do
@@ -225,7 +329,7 @@ describe QDisk::Query do
       expect(info).to receive(:query_disks).with(:removable?).and_return([disks[1]])
 
       found = find_partitions(info, {:query => [:removable?]})
-      found.to_set.should == (disks[1].partitions + [partitions[2], partitions[5]]).to_set
+      found.to_set.should eq((disks[1].partitions + [partitions[2], partitions[5]]).to_set)
     end
 
     it 'should all disks if query is not mandatory and query is empty' do

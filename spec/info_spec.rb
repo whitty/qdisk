@@ -96,6 +96,17 @@ describe QDisk::Info do
       part.mount_paths.should eq('/media/CANON_DC')
       part.mounted_by_uid.should eq('1000')
     end
+
+    it "should include the first matching data" do
+      pending "implementation"
+      set_process_output('show-info-sdb1')
+      i = QDisk::Info.new
+      part = i.partition('/dev/sdb1')
+      part.uuid.should eq('5D9F-38E7')
+      part.label.should eq('CANON_DC')
+      part.type.should eq('vfat')
+    end
+
   end
 
   describe "queries" do

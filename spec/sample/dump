@@ -519,7 +519,7 @@ Showing information for /org/freedesktop/UDisks/devices/sdb1
 ========================================================================
 Showing information for /org/freedesktop/UDisks/devices/sdc
   native-path:                 /sys/devices/pci0000:00/0000:00:14.0/usb4/4-3/4-3:1.0/host21/target21:0:0/21:0:0:0/block/sdc
-  device:                      8:16
+  device:                      8:32
   device-file:                 /dev/sdc
     presentation:              /dev/sdc
     by-id:                     /dev/disk/by-id/usb-HGST_HTS_721010A9E630_100060B4FFFF-0:0
@@ -575,7 +575,7 @@ Showing information for /org/freedesktop/UDisks/devices/sdc
 ========================================================================
 Showing information for /org/freedesktop/UDisks/devices/sdc1
   native-path:                 /sys/devices/pci0000:00/0000:00:14.0/usb4/4-3/4-3:1.0/host21/target21:0:0/21:0:0:0/block/sdc/sdc1
-  device:                      8:17
+  device:                      8:33
   device-file:                 /dev/sdc1
     presentation:              /dev/sdc1
     by-id:                     /dev/disk/by-id/usb-HGST_HTS_721010A9E630_100060B4FFFF-0:0-part1

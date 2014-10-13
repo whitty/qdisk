@@ -189,9 +189,9 @@ module QDisk
 
     def query_(list, query, value = nil)
       case query
-      when :removable?, :mounted?
+      when :removable?, :mounted?, :read_only?
         list.find_all {|x| x.respond_to?(query) and x.send(query) }
-      when :interface
+      when :interface, :device, :usage, :type, :uuid, :label
         list.find_all {|x| x.respond_to?(query) and x.send(query) == value }
       else
         raise ArgumentError.new("Unknown query #{query}")

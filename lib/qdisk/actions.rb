@@ -85,7 +85,17 @@ module QDisk
     end
   end
 
+  def query(args, options)
+    raise InvalidParameter.new('--multi', 'timeout') unless options.fetch(:timeout, nil).nil?
+    query_(args, options, false)
+  end
+
   def wait(args, options)
+    query_(args, options, true)
+  end
+
+  private
+  def query_(args, options, wait)
     if options[:query].nil? or options[:query].empty?
       raise MissingRequiredArgument, '--query'
     end
@@ -94,6 +104,7 @@ module QDisk
       while true
         info = QDisk::Info.new
         found = QDisk.find_partitions(info, {:query => options[:query] })
+        break if !wait
         break if found and !found.empty?
         sleep(0.2)
       end

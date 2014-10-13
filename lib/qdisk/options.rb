@@ -1,8 +1,8 @@
 module QDisk
 
   class OptionQuery
-    @@values = /(interface)=([^,]+)/
-    @@predicates = /(removable|mounted)/
+    @@values = /(interface|device|usage|type|uuid|label)=([^,]+)/
+    @@predicates = /(removable|mounted|read_only|readonly)/
     @@match = Regexp.union(@@values, @@predicates)
 
     def self.match(args)
@@ -27,7 +27,9 @@ module QDisk
         if q =~ @@values
           [$1.to_sym, $2]
         elsif q =~ @@predicates
-          ($1 + '?').to_sym
+          pred = $1
+          pred = 'read_only' if pred == 'readonly'
+          (pred + '?').to_sym
         else
           raise InvalidArgument, q
         end
@@ -38,7 +40,7 @@ module QDisk
 
   def parse_options(args)
 
-    commands = ['unmount', 'cp', 'wait']
+    commands = ['unmount', 'cp', 'wait', 'query']
 
     options = {}
     parser = OptionParser.new do |opts|

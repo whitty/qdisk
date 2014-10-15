@@ -266,6 +266,7 @@ describe :actions do
     it 'should return after timeout if query is false', :slow => true do
       IO.should_not receive(:popen)
       allow(QDisk::Info).to receive(:new).and_return(info)
+      expect(QDisk).to receive(:find_disks).with(info, {:query => [:removable?, [:interface, 'badint'], :mounted?] }).and_return([]).at_least(2).times
       expect(QDisk).to receive(:find_partitions).with(info, {:query => [:removable?, [:interface, 'badint'], :mounted?] }).and_return([]).at_least(2).times
       start = Time.now
       wait([], {:timeout => 0.5, :query => [:removable?, [:interface, 'badint'], :mounted?] })#.should be(false)
@@ -277,6 +278,7 @@ describe :actions do
     it 'should return before timeout if query becomes true', :slow => true do
       IO.should_not receive(:popen)
       allow(QDisk::Info).to receive(:new).and_return(info)
+      expect(QDisk).to receive(:find_disks).with(info, {:query => [:removable?, [:interface, 'badint'], :mounted?] }).and_return([]).at_least(2).times
       expect(QDisk).to receive(:find_partitions).with(info, {:query => [:removable?, [:interface, 'badint'], :mounted?] }).and_return([])
       partition = double(QDisk::Info)
       expect(QDisk).to receive(:find_partitions).with(info, {:query => [:removable?, [:interface, 'badint'], :mounted?] }).and_return([partition])

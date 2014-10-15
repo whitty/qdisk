@@ -9,6 +9,18 @@ module QDisk
 
   end
 
+  def find(info, options)
+    disks = find_disks(info, options) # unless options.fetch(:no_disks, false)
+    partitions = find_partitions(info, options) # unless options.fetch(:no_partitions, false)
+    if disks.nil?
+      partitions
+    elsif partitions.nil?
+      disks
+    else
+      disks + partitions
+    end
+  end
+
   def find_disks(info, options = {})
     queries = options.fetch(:query,[])
     return [] if options.fetch(:mandatory, false) and queries.length < 1

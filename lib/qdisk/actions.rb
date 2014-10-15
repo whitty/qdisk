@@ -103,7 +103,7 @@ module QDisk
       found = nil
       while true
         info = QDisk::Info.new
-        found = QDisk.find_partitions(info, {:query => options[:query] })
+        found = QDisk.find(info, {:query => options[:query] })
         break if !wait
         break if found and !found.empty?
         sleep(0.2)

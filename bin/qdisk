@@ -27,18 +27,12 @@ begin
       end
     when 'wait', 'query'
       if command == 'wait'
-        results = wait(arguments,options)
+        results = wait(arguments, options)
       else
-        results = query(arguments,options)
+        results = query(arguments, options)
       end
-      if results
-        results.each do |x|
-          # TODO: Tailor query output
-          printf "%s %s %s\n", x.device_name, x.mount_paths, x.mounted_by_uid
-        end
-      else
-        exit(10)
-      end
+      exit(10) if command == 'wait' and results.nil?
+      QDisk.print(results, $stdout, options)
     end
   end
 

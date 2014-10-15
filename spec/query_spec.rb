@@ -32,10 +32,10 @@ describe QDisk::Query do
     [disks, partitions]
   end
 
-  let (:disks) do
+  let :disks do
     sample_data[0]
   end
-  let (:partitions) do
+  let :partitions do
     sample_data[1]
   end
 

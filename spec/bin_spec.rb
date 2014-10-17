@@ -3,13 +3,12 @@ require 'support/command_run'
 
 include QDisk
 
-def has_udisk?
+def run_udisk?
   which = `which udisks`
-  p [which, ENV['TRAVIS']]
   which =~ /udisks$/ and ENV['TRAVIS'] != 'true'
 end
 
-describe 'qdisk binary', :if => has_udisk? do
+describe 'qdisk binary', :if => run_udisk? do
   include_context "command run"
 
   describe :wait do

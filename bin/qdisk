@@ -31,7 +31,7 @@ begin
       else
         results = query(arguments, options)
       end
-      exit(10) if command == 'wait' and results.nil?
+      exit(10) if command == 'wait' and not results
       QDisk.print(results, $stdout, options)
     end
   end

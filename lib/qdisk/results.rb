@@ -2,7 +2,7 @@ module QDisk
   extend self
 
   def print(results, op, options = {})
-    return if results.nil?
+    return unless results
     partitions, disks = results.partition {|x| x.partition?}
     if disks.empty?
       results.each do |x|

@@ -24,6 +24,7 @@ module QDisk
 
     widths = col_widths(all_cols)
 
+    # expand widths to match
     new_widths = widths
     while new_widths.inject {|x,y| x + y} < 72
       widths = new_widths

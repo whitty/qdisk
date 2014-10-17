@@ -1,3 +1,5 @@
+require 'pathname'
+
 module QDisk
 
   class OptionQuery
@@ -31,7 +33,7 @@ module QDisk
           pred = 'read_only' if pred == 'readonly'
           (pred + '?').to_sym
         else
-          raise InvalidArgument, q
+          raise OptionParser::InvalidArgument, q
         end
       end
     end
@@ -60,7 +62,8 @@ module QDisk
       end
 
       opts.on("--best", "Best guess match") do |v|
-        options[:best] = v
+        options[:query] ||= []
+        options[:query].concat(QDisk.derive_best())
       end
 
       opts.separator "Controlling cardinality:"
@@ -102,6 +105,31 @@ module QDisk
     puts(e.message)
     puts(parser)
     raise
+  end
+
+  def derive_best
+    best = "interface=usb,mounted"
+    begin
+      File.open(Pathname(ENV['HOME']) + '.qdisk') do |f|
+        f.each_line do |l|
+          line = l.gsub(/\s*#.*/,'')
+          case line
+          when /^best=(.*)/
+            best = $1.to_s
+          end
+        end
+      end
+    rescue SystemCallError
+      # look elsewhere for best
+    end
+
+    env = ENV['QDISK_BEST']
+    if env and env.length > 0
+      best = env.to_s
+    end
+
+    raise OptionParser::InvalidArgument, "--query=#{best}" if OptionQuery.match(best) != best
+    return OptionQuery.convert(best)
   end
 
 end

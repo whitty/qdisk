@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'optparse'
 
 include QDisk
 
@@ -73,6 +74,130 @@ describe :parse_options do
         options = query('--query=readonly')
         options[:query].should eq([:read_only?])
       end
+    end
+
+    it 'should fail on unknown query' do
+      output, _ = capture_output do
+        expect {query('--query=badinterface=usb') }.to raise_error(OptionParser::InvalidArgument)
+      end
+      output.should match(/invalid argument.*badinterface=usb/)
+    end
+
+    describe "--best" do
+      it "should add result of derive_best into query" do
+        expect(QDisk).to receive(:derive_best).and_return([:mounted?])
+        options = query('--best')
+        options[:query].should eq([:mounted?])
+      end
+
+      it "should insert result of derive_best into query in argument order" do
+        expect(QDisk).to receive(:derive_best).and_return([:mounted?])
+        options = query('--query=readonly', '--best', '--query=interface=ata,device=1:2')
+        options[:query].should eq([:read_only?, :mounted?, [:interface, 'ata'], [:device, '1:2']])
+      end
+    end
+
+  end
+
+end
+
+describe :derive_best do
+
+  let :env do
+    { 'HOME' => '/home/user'}
+  end
+
+  before :each do
+    stub_const "ENV", env
+  end
+
+  it "should look in home directory for .qdisk" do
+    expect(File).to receive(:open).with(Pathname('/home/user/.qdisk')).and_raise(Errno::ENOENT)
+    derive_best
+  end
+
+  context "QDISK_BEST not set" do
+
+    before :each do
+      ENV.fetch('QDISK_BEST', nil).should be_nil
+    end
+
+    let :default do
+      [[:interface, 'usb'], :mounted?]
+    end
+
+    it "should return interface=usb,mounted if no .qdisk file" do
+      expect(File).to receive(:open).with(Pathname('/home/user/.qdisk')).and_raise(Errno::ENOENT)
+      derive_best.should eq([[:interface, 'usb'], :mounted?])
+    end
+
+    it "should return query from .qdisk if present" do
+      file = StringIO.new("best=interface=ata,device=1:1")
+      expect(File).to receive(:open).with(Pathname('/home/user/.qdisk')).and_yield(file)
+      derive_best.should eq([[:interface, 'ata'], [:device, '1:1']])
+    end
+
+    it "should return default if no best line present" do
+      file = StringIO.new("beset=interface=ata,device=1:1")
+      expect(File).to receive(:open).with(Pathname('/home/user/.qdisk')).and_yield(file)
+      derive_best.should eq(default)
+    end
+
+    it "should return default if no best line commented" do
+      file = StringIO.new("#best=interface=ata,device=1:1")
+      expect(File).to receive(:open).with(Pathname('/home/user/.qdisk')).and_yield(file)
+      derive_best.should eq(default)
+    end
+
+    it "should return best line if other lines present" do
+      file = StringIO.new("other=foo\nbest=interface=ata,device=1:2\n")
+      expect(File).to receive(:open).with(Pathname('/home/user/.qdisk')).and_yield(file)
+      derive_best.should eq([[:interface, 'ata'], [:device, '1:2']])
+    end
+
+    it "should return best line with comment/whitespace trimmed" do
+      file = StringIO.new("best=interface=ata,device=2:2 # SATA disk 2\n")
+      expect(File).to receive(:open).with(Pathname('/home/user/.qdisk')).and_yield(file)
+      derive_best.should eq([[:interface, 'ata'], [:device, '2:2']])
+    end
+
+    it "should fail on bad query" do
+      file = StringIO.new("best=badinterface=ata,device=1:1")
+      expect(File).to receive(:open).with(Pathname('/home/user/.qdisk')).and_yield(file)
+      expect { derive_best }.to raise_error(OptionParser::InvalidArgument)
+    end
+  end
+
+  context "QDISK_BEST set" do
+
+    context "with no .qdisk file" do
+
+      before :each do
+        expect(File).to receive(:open).with(Pathname('/home/user/.qdisk')).and_raise(Errno::ENOENT)
+      end
+
+      it "should return query from QDISK_BEST if present" do
+        ENV['QDISK_BEST'] = 'interface=usb,device=8:1'
+        derive_best.should eq([[:interface, 'usb'], [:device, '8:1']])
+      end
+
+      it "should default query if QDISK_BEST is empty" do
+        ENV['QDISK_BEST'] = ''
+        derive_best.should eq([[:interface, 'usb'], :mounted?])
+      end
+
+      it "should fail on bad query" do
+        ENV['QDISK_BEST'] = 'unknowninterface=usb,device=8:1'
+        expect { derive_best }.to raise_error(OptionParser::InvalidArgument)
+      end
+
+    end
+
+    it "should return query from QDISK_BEST even if .qdisk present" do
+      ENV['QDISK_BEST'] = 'interface=usb,device=8:2'
+      file = StringIO.new("best=interface=ata,device=1:1")
+      expect(File).to receive(:open).with(Pathname('/home/user/.qdisk')).and_yield(file)
+      derive_best.should eq([[:interface, 'usb'], [:device, '8:2']])
     end
 
   end

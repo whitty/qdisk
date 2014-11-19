@@ -77,8 +77,15 @@ module QDisk
 
       opts.separator "Controlling time:"
 
-      opts.on("--timeout=timeout", Float, "Fail if operation takes longer than ", "'timeout' seconds. Decimals allowed") do |v|
+      opts.on("--timeout=timeout", Float, "Fail if operation takes longer than ", "'timeout' seconds. Decimals allowed.") do |v|
         options[:timeout] = v
+      end
+
+      opts.separator "'wait' options:"
+
+      opts.on("--mount", "If a single candidate drive could match", "query if it were mounted, attempt to mount",
+              "that drive after a second of failing the", "query.") do |v|
+        options[:mount] = v
       end
 
       opts.separator ""

@@ -82,6 +82,15 @@ module QDisk
     attr_reader :partition
   end
 
+  class MountFailed < CommandException
+    def initialize(partition, fail_message)
+      @partition = partition
+      super("Failed to mount partition #{partition.device_name}", fail_message)
+    end
+
+    attr_reader :partition
+  end
+
   class DetachFailed < CommandException
     def initialize(disk, fail_message)
       @disk = disk

@@ -155,6 +155,54 @@ describe :actions do
 
   end
 
+  describe :mount_partition do
+
+    context "against real captured dump data" do
+      include_context "against real captured dump data"
+
+      it 'should mount unmounted removable usb disk partition' do
+        found = find_disks(info, {:query => [:removable?, [:interface, 'usb']] })
+        set_process_output('mount')
+        mount_partition(found.first.partitions.first).should be(true)
+      end
+
+      it 'should raise exception when mounting non-existent partition' do
+        found = find_disks(info, {:query => [:removable?, [:interface, 'usb']] })
+        set_process_failure('mount-non', 1)
+        expect { mount_partition(found.first.partitions.first) }.to raise_error(QDisk::MountFailed)
+      end
+
+      it 'should not raise exception when mounting already mounted partition' do
+        found = find_disks(info, {:query => [:removable?, [:interface, 'usb']] })
+        set_process_failure('mount-already', 1)
+        mount_partition(found.first.partitions.first).should be(true)
+      end
+    end
+
+    let(:part) do
+      double('QDisk::Info::Partition')
+    end
+
+    it 'runs invokes udisks --mount <device_name>' do
+      expect(part).to receive(:device_name).and_return('/dev/foo1')
+      expect(QDisk).to receive(:run).with(%w{udisks --mount /dev/foo1}, anything).and_return([double_status(0),''])
+      mount_partition(part)
+    end
+
+    it 'runs doesn\'t invoke udisk if --no_act specified' do
+      expect(part).to receive(:device_name).and_return('/dev/foo1')
+      mount_partition(part, :no_act => true)
+      expect(QDisk).not_to receive(:run)
+    end
+
+    it 'emits commandline if --verbose specified' do
+      expect(part).to receive(:device_name).and_return('/dev/foo1')
+      expect(QDisk).to receive(:run).with(%w{udisks --mount /dev/foo1}, hash_including(:verbose => true)).and_return([double_status(0),''])
+      mount_partition(part, :verbose => true)
+    end
+
+  end
+
   describe :run do
 
     it 'runs commands via popen' do
@@ -269,7 +317,7 @@ describe :actions do
       expect(QDisk).to receive(:find_disks).with(info, {:query => [:removable?, [:interface, 'badint'], :mounted?] }).and_return([]).at_least(2).times
       expect(QDisk).to receive(:find_partitions).with(info, {:query => [:removable?, [:interface, 'badint'], :mounted?] }).and_return([]).at_least(2).times
       start = Time.now
-      wait([], {:timeout => 0.5, :query => [:removable?, [:interface, 'badint'], :mounted?] })#.should be(false)
+      wait([], {:timeout => 0.5, :query => [:removable?, [:interface, 'badint'], :mounted?] }).should be(false)
       end_time = Time.now
       elapsed = end_time - start
       (0.5 - elapsed).abs.should be < 0.1
@@ -280,13 +328,77 @@ describe :actions do
       allow(QDisk::Info).to receive(:new).and_return(info)
       expect(QDisk).to receive(:find_disks).with(info, {:query => [:removable?, [:interface, 'badint'], :mounted?] }).and_return([]).at_least(2).times
       expect(QDisk).to receive(:find_partitions).with(info, {:query => [:removable?, [:interface, 'badint'], :mounted?] }).and_return([])
-      partition = double(QDisk::Info)
+      partition = double(QDisk::Info::Partition)
       expect(QDisk).to receive(:find_partitions).with(info, {:query => [:removable?, [:interface, 'badint'], :mounted?] }).and_return([partition])
       start = Time.now
       wait([], {:timeout => 1.0, :query => [:removable?, [:interface, 'badint'], :mounted?] })#.should be(false)
       end_time = Time.now
       elapsed = end_time - start
       elapsed.should be < 0.5
+    end
+
+    context ":mount option" do
+
+      it 'should query looking for mount candidates if query is false', :slow => true do
+        IO.should_not receive(:popen)
+        QDisk.should_not receive(:mount_partition)
+
+        allow(QDisk::Info).to receive(:new).and_return(info)
+        expect(QDisk).to receive(:find_disks).with(info, {:query => [:removable?, [:interface, 'badint'], :mounted?] }).and_return([]).at_least(2).times
+        expect(QDisk).to receive(:find_partitions).with(info, {:query => [:removable?, [:interface, 'badint'], :mounted?] }).and_return([]).at_least(2).times
+
+        # expected additional queries (not mounted, but usage is filesystem)
+        expect(QDisk).to receive(:find_disks).with(info, {:query => [:removable?, [:interface, 'badint'], [:usage, "filesystem"]] }).and_return([]).at_least(2).times
+        expect(QDisk).to receive(:find_partitions).with(info, {:query => [:removable?, [:interface, 'badint'], [:usage, "filesystem"]] }).and_return([]).at_least(2).times
+
+        start = Time.now
+        wait([], {:timeout => 0.5, :mount => true, :query => [:removable?, [:interface, 'badint'], :mounted?] }).should be(false)
+        end_time = Time.now
+        elapsed = end_time - start
+        (0.5 - elapsed).abs.should be < 0.1
+      end
+
+      it 'should attempt to mount if query is false, but a similar result matches one', :slow => true do
+        allow(QDisk::Info).to receive(:new).and_return(info)
+        expect(QDisk).to receive(:find_disks).with(info, {:query => [:removable?, [:interface, 'badint'], :mounted?] }).and_return([]).at_least(2).times
+        expect(QDisk).to receive(:find_partitions).with(info, {:query => [:removable?, [:interface, 'badint'], :mounted?] }).and_return([]).at_least(2).times
+
+        partition = double(QDisk::Info::Partition)
+
+        # expected additional queries (not mounted, but usage is filesystem)
+        expect(QDisk).to receive(:find_disks).with(info, {:query => [:removable?, [:interface, 'badint'], [:usage, "filesystem"]] }).and_return([]).at_least(2).times
+        expect(QDisk).to receive(:find_partitions).with(info, {:query => [:removable?, [:interface, 'badint'], [:usage, "filesystem"]] }).and_return([partition]).at_least(2).times
+
+        # Expect attempt wil be made to mount
+        QDisk.should_receive(:mount_partition).with(partition, anything)
+        expect(partition).to receive(:device_name).and_return('/dev/sdd1')
+
+        start = Time.now
+        out, _ = capture_output do
+          wait([], {:timeout => 1.5, :mount => true, :query => [:removable?, [:interface, 'badint'], :mounted?] }).should be(false)
+        end
+        end_time = Time.now
+        elapsed = end_time - start
+        (1.5 - elapsed).abs.should be < 0.1
+
+        out.should eq("Attempt to mount /dev/sdd1\n")
+      end
+
+      it 'should not look for mount options if mounted? not specified', :slow => true do
+        IO.should_not receive(:popen)
+        QDisk.should_not receive(:mount_partition)
+
+        allow(QDisk::Info).to receive(:new).and_return(info)
+        expect(QDisk).to receive(:find_disks).with(info, {:query => [:removable?, [:interface, 'badint']] }).and_return([]).at_least(2).times
+        expect(QDisk).to receive(:find_partitions).with(info, {:query => [:removable?, [:interface, 'badint']] }).and_return([]).at_least(2).times
+
+        start = Time.now
+        wait([], {:timeout => 0.5, :mount => true, :query => [:removable?, [:interface, 'badint']] }).should be(false)
+        end_time = Time.now
+        elapsed = end_time - start
+        (0.5 - elapsed).abs.should be < 0.1
+      end
+
     end
 
   end

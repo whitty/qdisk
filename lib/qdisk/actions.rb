@@ -72,6 +72,20 @@ module QDisk
     end
   end
 
+  def mount_partition(partition, options = {})
+    cmd = %w{udisks --mount} << partition.device_name
+    status, output = QDisk.run(cmd, :verbose => options[:verbose], :no_act => options[:no_act])
+    if status.nil? and output.nil?
+      true # no_act
+    elsif status.exited? and status.exitstatus == 0
+      true
+    elsif output =~ /Mount failed: .* is mounted$/
+      true
+    else
+      raise MountFailed.new(partition, output)
+    end
+  end
+
   def detach_disk(disk, options = {})
     cmd = %w{udisks --detach} << disk.device_name
     status, output = QDisk.run(cmd, :verbose => options[:verbose], :no_act => options[:no_act])
@@ -101,11 +115,36 @@ module QDisk
     end
     work = lambda do
       found = nil
+      mcount = 0 # mount count
+
       while true
         info = QDisk::Info.new
         found = QDisk.find(info, {:query => options[:query] })
         break if !wait
         break if found and !found.empty?
+
+        # Not the best place for this
+        if options[:mount] and options[:query].member?(:mounted?)
+          # replay query to see if there are unmounted filesystems
+          # that could satisfy the query
+          present = options[:query].select{|x| x != :mounted?}
+          present << [:usage, 'filesystem']
+          p present if $DEBUG
+          found = QDisk.find(info, {:query => present })
+          # If there is exactly one candidate - note it and attempt to mount it
+          # if we remain unsatisfied
+          if found.length == 1 # one candidate
+            if mcount > 1 # seen on two iterations
+              if (mcount % 5) == 0 # each second
+                puts "Attempt to mount #{found.first.device_name}"
+                QDisk.mount_partition(found.first, options)
+              end
+            end
+            mcount +=1
+          else
+            mcount = 0 # not seen or confusing
+          end
+        end
         sleep(0.2)
       end
       found

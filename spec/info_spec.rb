@@ -156,6 +156,20 @@ describe QDisk::Info do
 
     end
 
+    it "should query based on has_media?" do
+      result = info.query_disks(:has_media?)
+      result.should be_an(Array)
+      result.length.should eq(3)
+      result.first.count.should eq('7')
+      result.last.vendor.should eq('HGST HTS')
+
+      result = info.query_partitions(:has_media?)
+      result.should be_an(Array)
+      result.length.should eq(9)
+      result.first.uuid.should eq('A634EED434EEA691')
+      result.last.mount_paths.should eq('/media/ED3C-74EC')
+    end
+
   end
 
 end

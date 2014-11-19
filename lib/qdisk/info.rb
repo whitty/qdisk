@@ -130,6 +130,18 @@ module QDisk
         last = nil
         last_depth = 0
 
+        # special pre-parsing (with insertion)
+        rows.each_with_index do | v, i |
+          depth, name, value = v
+
+          if name == "has media"
+            value, rest = value.split(/\s/, 2)
+            rows[i][2] = value
+            rows.insert(i + 1, [depth + 1, "since", rest]) if rest
+          end
+
+        end
+
         rows.each do |depth, name, value|
           if @@predicates.member?(name)
             value = value == '1'
@@ -190,7 +202,7 @@ module QDisk
 
     def query_(list, query, value = nil)
       case query
-      when :removable?, :mounted?, :read_only?
+      when :removable?, :mounted?, :read_only?, :has_media?
         list.find_all {|x| x.respond_to?(query) and x.send(query) }
       when :interface, :device, :usage, :type, :uuid, :label
         list.find_all {|x| x.respond_to?(query) and x.send(query) == value }

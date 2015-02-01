@@ -341,4 +341,30 @@ describe QDisk::Query do
 
   end
 
+  describe :find do
+
+    context "against real captured dump data (with loop device)" do
+      let(:info) do
+        QDisk::Info.new
+      end
+
+      before(:each) do
+        set_process_output('loop-dump')
+      end
+
+      it "result of 'and' query should not depend on order" do
+        found1 = QDisk.find(info, :query => [[:interface, 'usb'], :mounted?])
+        found2 = QDisk.find(info, :query => [:mounted?, [:interface, 'usb']])
+        found1.to_set.should eq(found2.to_set)
+      end
+
+      it "should not find dev/loop0 based on 'interface=usb,mounted'" do
+        found = QDisk.find_disks(info, :query => [[:interface, 'usb'], :mounted?])
+        found.find {|x| x.device_name == '/dev/loop0' }.should be_nil
+      end
+
+    end
+
+  end
+
 end

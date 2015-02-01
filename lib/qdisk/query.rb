@@ -37,7 +37,7 @@ module QDisk
         partition_based_disk_candidates = candidates.select do |disk|
           disk.partitions.any? {|part| matching_partitions.member?(part)}
         end
-        candidates = disk_candidates.to_set.union(partition_based_disk_candidates.to_set)
+        candidates = candidates & disk_candidates.to_set.union(partition_based_disk_candidates.to_set)
       else
         candidates = candidates & info.query_disks(*query)
       end

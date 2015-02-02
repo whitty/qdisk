@@ -308,7 +308,7 @@ describe :actions do
         wait([], {:query => [:removable?, [:interface, 'usb'], :mounted?] }).should_not be(false)
       end
       end_time = Time.now
-      (end_time - start).should be < 0.1
+      (end_time - start).should be < 0.2
     end
 
     it 'should return after timeout if query is false', :slow => true do

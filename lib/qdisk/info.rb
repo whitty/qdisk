@@ -18,6 +18,8 @@ module QDisk
         @object_name = lines.shift
         parse(lines)
 
+        do_corrections
+
         @device_name = @values['device-file'].value
         @partitions = nil
       end
@@ -165,6 +167,18 @@ module QDisk
         end
         rows
       end
+
+      def do_corrections
+
+        # drives with no interface that look like /dev/loopN are loop device
+        unless partition?
+          if get('drive', 'interface') == '(unknown)' and @values['device-file'].value =~ /^\/dev\/loop[0-9]+$/
+            iface = @values['drive'].children.find {|x| x.name == 'interface'}
+            iface.value = "loop" if iface
+          end
+        end
+      end
+
     end
 
     class Partition < Disk

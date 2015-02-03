@@ -66,6 +66,18 @@ describe QDisk::Info do
         disk.get(n).should be(device)
       end
     end
+
+    context "synthesised information" do
+
+      it 'should load information about each partition' do
+        set_process_output('loop-dump')
+        disks = QDisk::Info.new.disks
+        loop = disks.find {|x| x.device_name == '/dev/loop0'}
+        loop.should_not be_nil
+        loop.interface.should eq("loop")
+      end
+
+    end
   end
 
   describe QDisk::Info::Partition do

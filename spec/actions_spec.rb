@@ -63,6 +63,36 @@ describe :actions do
       end
 
     end
+
+    context "whole-disk filesystem (no partition)" do
+
+      let(:info) do
+        QDisk::Info.new
+      end
+
+      it 'should find just the disk if mounted and no partitions' do
+        set_process_output('loop-dump')
+        QDisk.should_receive(:unmount_partition)
+        unmount(:query => [ [:interface, 'loop'], :mounted?], :no_act => true)
+      end
+
+      it 'should find just the disk if mounted and no partitions' do
+        set_process_output('loop-dump')
+        QDisk.should_receive(:unmount_partition)
+        QDisk.should_receive(:detach_disk)
+        unmount(:query => [ [:interface, 'loop'], :mounted?], :detach => true, :no_act => true)
+      end
+
+      it 'should find just the disk if mounted and no partitions (output)' do
+        set_process_output('loop-dump')
+        out, _ = capture_output do
+          unmount(:verbose => true, :query => [ [:interface, 'loop'], :mounted?], :detach => true, :no_act => true)
+        end
+        out.should match(/udisks.*--unmount.*\/dev\/loop0/)
+        out.should match(/udisks.*--detach.*\/dev\/loop0/)
+      end
+    end
+
   end
 
   describe :cp do
@@ -93,6 +123,20 @@ describe :actions do
       it 'use cp ::noop with --no-act' do
         FileUtils.should_receive(:cp).with('a', Pathname('/media/CANON_DC/b'), hash_including(:noop => true))
         cp(['a', 'b'], :query => [:removable?, [:interface, 'usb'], :mounted?], :no_act => true)
+      end
+
+    end
+
+    context "whole-disk filesystem (no partition)" do
+
+      let(:info) do
+        QDisk::Info.new
+      end
+
+      it 'should find just the disk if mounted and no partitions' do
+        set_process_output('loop-dump')
+        FileUtils.should_receive(:cp).with('a', Pathname('/mnt/b'), hash_including(:noop => true))
+        cp(['a', 'b'], :query => [ [:interface, 'loop'], :mounted?], :no_act => true)
       end
 
     end

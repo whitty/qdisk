@@ -16,6 +16,9 @@ module QDisk
           QDisk.unmount_partition(part, options)
         end
       end
+      if disk.mounted?
+        QDisk.unmount_partition(disk, options)
+      end
       if options.fetch(:detach, false)
         QDisk.detach_disk(disk, options)
       end
@@ -38,6 +41,9 @@ module QDisk
     puts "disk => #{disk.device_name}" if options[:verbose]
     part = disk.partitions.find do |p|
       p.mounted?
+    end
+    if part.nil?
+      part = disk if disk.mounted?
     end
     raise NotFound, 'partition' if part.nil?
     puts "partition => #{part.device_name}" if options[:verbose]

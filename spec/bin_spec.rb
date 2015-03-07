@@ -1,8 +1,6 @@
 require 'spec_helper'
 require 'support/command_run'
 
-include QDisk
-
 def run_udisk?
   which = `which udisks`
   which =~ /udisks$/ and ENV['TRAVIS'] != 'true'

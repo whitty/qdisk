@@ -1,7 +1,7 @@
 require 'qdisk/exceptions'
 require 'yaml'
 
-module QDisk
+module QDisk  module UDisk
 
   class Info
 
@@ -252,4 +252,4 @@ module QDisk
     end
   end
 
-end
+end end

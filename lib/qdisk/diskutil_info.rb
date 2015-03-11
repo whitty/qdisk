@@ -11,19 +11,35 @@ module QDisk
 
         def initialize(name)
           @device_name = name
-          @info = nil
+          @load_attempt = nil
           @partition = false
           @partitions = []
+          @mount_paths = nil
+          @uuid = nil
+          @label = nil
+          @type = nil
+          @interface = nil
         end
 
-        attr_reader :device_name, :interface, :partitions
+        def self.attr_reader_load(*member)
+          [*member].each do |memb|
+            define_method(memb) do
+              load_info unless @load_attempt
+              v = self.instance_variable_get('@' + memb.to_s)
+              v
+            end
+          end
+        end
+
+        attr_reader_load :device_name, :interface, :partitions, :mount_paths, :uuid, :label, :type
 
         def self.predicate(predicate)
           [*predicate].each do |pred|
             name = pred.to_s + '?'
             define_method(name.to_sym) do
+              load_info unless @load_attempt
               v = self.instance_variable_get('@' + pred.to_s)
-              v and v.value
+              v and true
             end
           end
         end
@@ -40,10 +56,13 @@ module QDisk
         @@aliases = {
           'device-file' => :device_name,
           'device_file' => :device_name,
+          'device file' => :device_name,
         }
 
+        alias_method :device_file, :device_name
+
         def get(name, subname = nil)
-          load_info unless @info
+          load_info unless @load_attempt
           sym = @@aliases.fetch(name, nil)
           if sym.nil?
             sym = name.to_s.to_sym
@@ -59,6 +78,7 @@ module QDisk
         end
 
         def load_info
+          @load_attempt = true
           status, output = run(['diskutil', 'info', @device_name])
 
           if ! status.exited? or status.exitstatus != 0
@@ -68,6 +88,8 @@ module QDisk
             case l
             when /^   Mounted:\s+(.*)/
               @mounted = ($1 == 'Yes')
+            when /^   Mount Point:\s+(.*)/
+              @mount_paths = $1
             when /^   Protocol:\s+(.*)/
               case $1
               when 'PCI'
@@ -87,9 +109,19 @@ module QDisk
               end
             when /^   Ejectable:\s+(.*)/
               @removable = ($1 == 'Yes')
+            when /^   Volume UUID:\s+(.*)/
+              @uuid = $1
+            when /^   Volume Name:\s+(.*)/
+              @label = $1
+            when /^   Type \(Bundle\):\s+(.*)/
+              @type = $1
             end
           end
-          @info = true
+
+          # Override to match udisks
+          if partition?
+            @removable = false if parent.removable?
+          end
         end
 
         def register(child)
@@ -117,11 +149,11 @@ module QDisk
       end
 
       def disk(name)
-        @disks.find {|x| x.object_name == name || x.device_name == name}
+        @disks.find {|x| x.device_name == name}
       end
 
       def partition(name)
-        @partitions.find {|x| x.object_name == name || x.device_name == name}
+        @partitions.find {|x| x.device_name == name}
       end
 
 

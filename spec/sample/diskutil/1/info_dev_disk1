@@ -1,0 +1,46 @@
+   Device Identifier:        disk1
+   Device Node:              /dev/disk1
+   Part of Whole:            disk1
+   Device / Media Name:      Macintosh HD
+
+   Volume Name:              Macintosh HD
+
+   Mounted:                  Yes
+   Mount Point:              /
+
+   File System Personality:  Journaled HFS+
+   Type (Bundle):            hfs
+   Name (User Visible):      Mac OS Extended (Journaled)
+   Journal:                  Journal size 40960 KB at offset 0x1a38b000
+   Owners:                   Enabled
+
+   Content (IOContent):      Apple_HFS
+   OS Can Be Installed:      Yes
+   Recovery Disk:            disk0s3
+   Media Type:               Generic
+   Protocol:                 PCI
+   SMART Status:             Not Supported
+   Volume UUID:              522870FB-4929-307E-BC43-6437AA8F4844
+   Disk / Partition UUID:    E3F072CA-44F1-4B87-85E4-A5575D6177FA
+
+   Total Size:               499.1 GB (499071844352 Bytes) (exactly 974749696 512-Byte-Units)
+   Volume Free Space:        425.7 GB (425671753728 Bytes) (exactly 831390144 512-Byte-Units)
+   Device Block Size:        512 Bytes
+   Allocation Block Size:    4096 Bytes
+
+   Read-Only Media:          No
+   Read-Only Volume:         No
+   Ejectable:                No
+
+   Whole:                    Yes
+   Internal:                 Yes
+   Solid State:              Yes
+   OS 9 Drivers:             No
+   Low Level Format:         Not supported
+
+   This disk is a Core Storage Logical Volume (LV).  Core Storage Information:
+   LV UUID:                  E3F072CA-44F1-4B87-85E4-A5575D6177FA
+   LVF UUID:                 244CB76F-14ED-4A08-A616-E844124EDE88
+   LVG UUID:                 768A59C6-6288-4275-A1DE-C4E979CC5E53
+   Fusion Drive:             No
+   Encrypted:                Yes

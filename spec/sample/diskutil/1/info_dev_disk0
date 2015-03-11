@@ -1,0 +1,31 @@
+   Device Identifier:        disk0
+   Device Node:              /dev/disk0
+   Part of Whole:            disk0
+   Device / Media Name:      APPLE SSD SM0512F Media
+
+   Volume Name:              Not applicable (no file system)
+
+   Mounted:                  Not applicable (no file system)
+
+   File System:              None
+
+   Content (IOContent):      GUID_partition_scheme
+   OS Can Be Installed:      No
+   Media Type:               Generic
+   Protocol:                 PCI
+   SMART Status:             Verified
+
+   Total Size:               500.3 GB (500277790720 Bytes) (exactly 977105060 512-Byte-Units)
+   Volume Free Space:        Not applicable (no file system)
+   Device Block Size:        512 Bytes
+
+   Read-Only Media:          No
+   Read-Only Volume:         Not applicable (no file system)
+   Ejectable:                No
+
+   Whole:                    Yes
+   Internal:                 Yes
+   Solid State:              Yes
+   OS 9 Drivers:             No
+   Low Level Format:         Not supported
+

@@ -1,0 +1,34 @@
+   Device Identifier:        disk0s2
+   Device Node:              /dev/disk0s2
+   Part of Whole:            disk0
+   Device / Media Name:      Macintosh HD
+
+   Volume Name:              Not applicable (no file system)
+
+   Mounted:                  Not applicable (no file system)
+
+   File System:              None
+
+   Partition Type:           Apple_CoreStorage
+   OS Can Be Installed:      No
+   Recovery Disk:            disk0s3
+   Media Type:               Generic
+   Protocol:                 PCI
+   SMART Status:             Verified
+   Disk / Partition UUID:    B28BF711-8D45-4A9E-BFF2-8CB8180EED07
+
+   Total Size:               499.4 GB (499418034176 Bytes) (exactly 975425848 512-Byte-Units)
+   Volume Free Space:        Not applicable (no file system)
+   Device Block Size:        512 Bytes
+
+   Read-Only Media:          No
+   Read-Only Volume:         Not applicable (no file system)
+   Ejectable:                No
+
+   Whole:                    No
+   Internal:                 Yes
+   Solid State:              Yes
+
+   This disk is a Core Storage Physical Volume (PV).  Core Storage Information:
+   PV UUID:                  257A9C9F-5ACD-4F29-9079-ECD873FA4909
+   LVG UUID:                 768A59C6-6288-4275-A1DE-C4E979CC5E53

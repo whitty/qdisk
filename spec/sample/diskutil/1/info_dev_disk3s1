@@ -1,0 +1,32 @@
+   Device Identifier:        disk3s1
+   Device Node:              /dev/disk3s1
+   Part of Whole:            disk3
+   Device / Media Name:      Untitled 1
+
+   Volume Name:              SHOGUN
+
+   Mounted:                  Yes
+   Mount Point:              /Volumes/SHOGUN
+
+   File System Personality:  ExFAT
+   Type (Bundle):            exfat
+   Name (User Visible):      ExFAT
+
+   Partition Type:           Windows_NTFS
+   OS Can Be Installed:      No
+   Media Type:               Generic
+   Protocol:                 USB
+   SMART Status:             Not Supported
+   Volume UUID:              5F3610D1-B489-376E-B59C-7C178A5E5640
+
+   Total Size:               512.1 GB (512109010944 Bytes) (exactly 1000212912 512-Byte-Units)
+   Volume Free Space:        491.1 GB (491145396224 Bytes) (exactly 959268352 512-Byte-Units)
+   Device Block Size:        512 Bytes
+   Allocation Block Size:    131072 Bytes
+
+   Read-Only Media:          No
+   Read-Only Volume:         No
+   Ejectable:                Yes
+
+   Whole:                    No
+   Internal:                 No

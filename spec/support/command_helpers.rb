@@ -40,3 +40,40 @@ def capture_output
   end
   [out.string, err.string]
 end
+
+# Global state for stub_commands
+$stub_pid = 2
+$stub_ret = {}
+
+def stub_commands(dir)
+
+  allow(IO).to receive(:popen) do |args, &b|
+    base = Pathname(dir)
+    path = 'unknown'
+    if args[0] == 'diskutil'
+      frags = args[1..-1]
+      esc_frags = frags.map {|x| x.gsub("/","_") }
+      trimmed_frags = esc_frags.map{|x| x.gsub(/^_+/, '')}
+      candidate =  [frags, esc_frags, trimmed_frags].map{|x| x.join('_')}.find do |x|
+        (base+x).exist?
+      end
+      path = candidate if candidate
+    end
+    f = File.open(base + path, "r")
+    pid = $stub_pid
+    $stub_pid += 1
+    f.stub(:pid) { pid }
+    status = double_status(0)
+    $stub_ret[pid] = status
+    b.call(f)
+    nil
+  end
+
+  allow(Process).to receive(:wait2) do |*args|
+    pid = Integer(args.first)
+    ret = $stub_ret[pid]
+    $stub_ret.delete(pid)
+    [pid, ret]
+  end
+
+end

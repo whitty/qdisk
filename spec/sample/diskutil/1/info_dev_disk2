@@ -1,0 +1,29 @@
+   Device Identifier:        disk2
+   Device Node:              /dev/disk2
+   Part of Whole:            disk2
+   Device / Media Name:      Apple UDIF read-only compressed (bzip2) Media
+
+   Volume Name:              Not applicable (no file system)
+
+   Mounted:                  Not applicable (no file system)
+
+   File System:              None
+
+   Content (IOContent):      Apple_partition_scheme
+   OS Can Be Installed:      No
+   Media Type:               Generic
+   Protocol:                 Disk Image
+   SMART Status:             Not Supported
+
+   Total Size:               137.3 MB (137274368 Bytes) (exactly 268114 512-Byte-Units)
+   Volume Free Space:        Not applicable (no file system)
+   Device Block Size:        512 Bytes
+
+   Read-Only Media:          Yes
+   Read-Only Volume:         Not applicable (no file system)
+   Ejectable:                Yes
+
+   Whole:                    Yes
+   Internal:                 No
+   OS 9 Drivers:             No
+   Low Level Format:         Not supported

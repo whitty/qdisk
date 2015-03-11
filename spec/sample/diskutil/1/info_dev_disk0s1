@@ -1,0 +1,31 @@
+   Device Identifier:        disk0s1
+   Device Node:              /dev/disk0s1
+   Part of Whole:            disk0
+   Device / Media Name:      EFI System Partition
+
+   Volume Name:              Not applicable (no file system)
+
+   Mounted:                  Not applicable (no file system)
+
+   File System:              None
+
+   Partition Type:           EFI
+   OS Can Be Installed:      No
+   Media Type:               Generic
+   Protocol:                 PCI
+^[[A   SMART Status:             Verified
+   Volume UUID:              0E239BC6-F960-3107-89CF-1C97F78BB46B
+   Disk / Partition UUID:    519788F9-3D0A-415E-A57C-9D36E1ED349E
+
+   Total Size:               209.7 MB (209715200 Bytes) (exactly 409600 512-Byte-Units)
+   Volume Free Space:        Not applicable (no file system)
+   Device Block Size:        512 Bytes
+
+   Read-Only Media:          No
+   Read-Only Volume:         Not applicable (no file system)
+   Ejectable:                No
+
+   Whole:                    No
+   Internal:                 Yes
+   Solid State:              Yes
+

@@ -60,7 +60,7 @@ module QDisk
     IO.popen(args) do |f|
       pid = f.pid
       _, status = Process.wait2(pid)
-      [status, f.read]
+      return [status, f.read]
     end
   end
 

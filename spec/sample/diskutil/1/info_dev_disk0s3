@@ -1,0 +1,31 @@
+   Device Identifier:        disk0s3
+   Device Node:              /dev/disk0s3
+   Part of Whole:            disk0
+   Device / Media Name:      Recovery HD
+
+   Volume Name:              Not applicable (no file system)
+
+   Mounted:                  Not applicable (no file system)
+
+   File System:              None
+
+   Partition Type:           Apple_Boot
+   OS Can Be Installed:      No
+   Media Type:               Generic
+   Protocol:                 PCI
+   SMART Status:             Verified
+   Volume UUID:              396563D4-5931-3CF2-B139-1080C24A1581
+   Disk / Partition UUID:    90433E76-4D68-40DE-A731-C42D186B424D
+
+   Total Size:               650.0 MB (650002432 Bytes) (exactly 1269536 512-Byte-Units)
+   Volume Free Space:        Not applicable (no file system)
+   Device Block Size:        512 Bytes
+
+   Read-Only Media:          No
+   Read-Only Volume:         Not applicable (no file system)
+   Ejectable:                No
+
+   Whole:                    No
+   Internal:                 Yes
+   Solid State:              Yes
+

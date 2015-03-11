@@ -1,0 +1,29 @@
+   Device Identifier:        disk3
+   Device Node:              /dev/disk3
+   Part of Whole:            disk3
+   Device / Media Name:      JMicron Generic Media
+
+   Volume Name:              Not applicable (no file system)
+
+   Mounted:                  Not applicable (no file system)
+
+   File System:              None
+
+   Content (IOContent):      FDisk_partition_scheme
+   OS Can Be Installed:      No
+   Media Type:               Generic
+   Protocol:                 USB
+   SMART Status:             Not Supported
+
+   Total Size:               512.1 GB (512110190592 Bytes) (exactly 1000215216 512-Byte-Units)
+   Volume Free Space:        Not applicable (no file system)
+   Device Block Size:        512 Bytes
+
+   Read-Only Media:          No
+   Read-Only Volume:         Not applicable (no file system)
+   Ejectable:                Yes
+
+   Whole:                    Yes
+   Internal:                 No
+   OS 9 Drivers:             No
+   Low Level Format:         Not supported

@@ -1,0 +1,27 @@
+   Device Identifier:        disk2s1
+   Device Node:              /dev/disk2s1
+   Part of Whole:            disk2
+   Device / Media Name:      Apple
+
+   Volume Name:              Not applicable (no file system)
+
+   Mounted:                  Not applicable (no file system)
+
+   File System:              None
+
+   Partition Type:           Apple_partition_map
+   OS Can Be Installed:      No
+   Media Type:               Generic
+   Protocol:                 Disk Image
+   SMART Status:             Not Supported
+
+   Total Size:               32.3 KB (32256 Bytes) (exactly 63 512-Byte-Units)
+   Volume Free Space:        Not applicable (no file system)
+   Device Block Size:        512 Bytes
+
+   Read-Only Media:          Yes
+   Read-Only Volume:         Not applicable (no file system)
+   Ejectable:                Yes
+
+   Whole:                    No
+   Internal:                 No

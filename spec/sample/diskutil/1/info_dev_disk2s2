@@ -1,0 +1,34 @@
+   Device Identifier:        disk2s2
+   Device Node:              /dev/disk2s2
+   Part of Whole:            disk2
+   Device / Media Name:      disk image
+
+   Volume Name:              VirtualBox
+
+   Mounted:                  Yes
+   Mount Point:              /Volumes/VirtualBox
+
+   File System Personality:  HFS+
+   Type (Bundle):            hfs
+   Name (User Visible):      Mac OS Extended
+   Owners:                   Disabled
+
+   Partition Type:           Apple_HFS
+   OS Can Be Installed:      No
+   Media Type:               Generic
+   Protocol:                 Disk Image
+   SMART Status:             Not Supported
+   Volume UUID:              1A29CF7E-BA8F-35ED-AFF9-B4AA1B0E7A7A
+
+   Total Size:               137.2 MB (137236480 Bytes) (exactly 268040 512-Byte-Units)
+   Volume Free Space:        10.4 MB (10412032 Bytes) (exactly 20336 512-Byte-Units)
+   Device Block Size:        512 Bytes
+   Allocation Block Size:    4096 Bytes
+
+   Read-Only Media:          Yes
+   Read-Only Volume:         Yes
+   Ejectable:                Yes
+
+   Whole:                    No
+   Internal:                 No
+

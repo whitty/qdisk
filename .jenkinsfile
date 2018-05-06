@@ -1,0 +1,37 @@
+def withHackRvm(String version, Closure cl) {
+  withEnv(["PATH=${env.PATH}:/usr/local/rvm/gems/ruby-$version/wrappers"]) {
+    cl()
+  }
+}
+
+def basic()
+{
+  sh "ruby --version && bundle --version || gem install -N bundle"
+  sh "bundle install"
+  sh "rake"
+}
+
+stage "preparation"
+
+node {
+  checkout scm
+
+  stage "test"
+  parallel (
+    v2_2: {
+      withHackRvm("2.2.7") {
+        basic()
+      }
+    },
+    v2_3: {
+      withHackRvm("2.3.4") {
+        basic()
+      }
+    },
+    v2_4: {
+      withHackRvm("2.4.1") {
+        basic()
+      }
+    }
+  )
+}

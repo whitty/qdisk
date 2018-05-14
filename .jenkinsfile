@@ -32,6 +32,11 @@ node {
       withHackRvm("2.4.1") {
         basic()
       }
+    },
+    v2_5: {
+      withHackRvm("2.5.1") {
+        basic()
+      }
     }
   )
 }
